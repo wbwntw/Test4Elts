@@ -1,0 +1,438 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personality Test</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-tr from-blue-400 to-purple-400 min-h-screen">
+  <div class="container mx-auto px-4 py-20">
+    <h1 class="text-center text-white font-semibold text-4xl mb-6">LE TEST DES 4 ELEMENTS</h1>
+    <div class="bg-white p-8 rounded shadow-lg w-full md:w-3/4 mx-auto">
+      <div class="progress mb-6">
+        <p class="mb-2"><center>Progress: <span id="progress"></span> / 80</center></p>
+        <div class="h-2 bg-gray-200">
+          <div id="progress-bar" class="h-2 bg-green-400"></div>
+        </div>
+      </div>
+      <div id="question-container" class="mb-8 ">
+        <p id="question" class="transition transform hover:scale-110 "></p>
+        <div id="options" class="grid grid-cols-3 gap-4"></div>
+      </div>
+      <button id="previous" class="bg-gray-400 text-white px-4 py-2 rounded mr-4 transition transform hover:scale-125" style="visibility: hidden;"><b>RETOUR</b></button>
+      <button id="submit" class="bg-green-500 text-white px-4 py-2 rounded transition transform hover:scale-125" style="float: right;">SUIVANT</b></button>
+    </div>
+    <p><div id="results-container"></div></p>
+  </div>
+
+<script>
+  const statements = [
+    { statement: "Dans un film de science-fiction, choisis un pouvoir qui reflète ta nature intrinsèque.", opt1 : "Option 1 : Capacité de simplification instantanée, qui élimine tout ce qui est inutile par simple visualisation.", opt2 : "Option 2 : Pouvoir d'hyper-perception, qui identifie immédiatement tous les détails et aspects cachés d'un seul coup d'œil.", option1: "SecFeminin", option2: "SecMasculin", element1: "Feu", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Pendant une activité de groupe en plein air.", opt1 : "Option 1 : Je suis celui(celle) qui prend les initiatives, encourageant un esprit de compétition amicale qui dynamise le groupe.", opt2 : "Option 2 : Je suis celui(celle) qui distille la joie, ralliant les participants autour de sentiments de camaraderie et de plaisir partagé.", option1: "ChaudMasculin", option2: "ChaudFeminin", element1: "Feu", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es dans un projet de groupe où tout le monde partage ses idées. Soudain, un désaccord survient et l'atmosphère devient tendue.", opt1 : "Option 1 : Je désamorce la situation en proposant une nouvelle perspective qui combine différentes idées pour trouver un terrain d'entente.", opt2 : "Option 2 : Je suis profondément affecté(e) par la tension et finis par prendre le rôle de médiateur(trice), afin que personne ne ressorte offensé.", option1: "HumideMasculin", option2: "HumideFeminin", element1: "Air", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es au milieu d'une journée chargée, avec des deadlines qui approchent et une liste de tâches qui ne cesse de s'allonger.", opt1 : "Option 1 : J'opte pour une courte méditation afin d'apaiser mon esprit et mes émotions, pour ensuite revenir à mes tâches plus sereinement.", opt2 : "Option 2 : Je décide de faire une pause pour clarifier mes idées. Je m'isole avec un carnet pour réorganiser mes idées efficacement.", option1: "HumideFeminin", option2: "HumideMasculin", element1: "Eau", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lorsque tes amis traversent des moments difficiles.", opt1 : "Option 1 : Ils comptent sur mon calme, ma tranquilité et mes conseils mesurés sans perdre mon sang froid.", opt2 : "Option 2 : Ils comptent sur ta stabilté et ta fiabilité, fournissant un espace sûr où ils peuvent s'exprimer. Leurs secrets sont en sécurité avec toi.", option1: "FroidMasculin", option2: "FroidFeminin", element1: "Eau", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "tu es chargé(e) de gérer un projet avec de multiples parties prenantes et des délais serrés.", opt1 : "Option 1 : Mon plus grand atout est mon pragmatisme, je cible rapidement les actions essentielles et décide vite.", opt2 : "Option 2 : Mon plus grand atout est mon côté structuré(e) et organisé(e), ma gestion méthodique et logique.", option1: "SecFeminin", option2: "SecMasculin", element1: "Feu", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Ton ami est confronté à un dilemme complexe au travail et cherche ton aide pour se décider.", opt1 : "Option 1 : J'analyse la situation avec minutie, je comprends chaque partie du problème, et lui réponds avec logique et objectivité.", opt2 : "Option 2 : Je vais droit au but, identifie les aspects les plus critiques du problème et lui réponds avec réalisme.", option1: "SecMasculin", option2: "SecFeminin", element1: "Terre", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Face aux défis et opportunités de la vie, où tu trouves l'énergie et la détermination pour poursuivre tes objectifs.", opt1 : "Option 1 : Dans mon optimisme, la quête du bonheur, ma joie de vivre et ma volonté d'inspirer qui me motivent.", opt2 : "Option 2 : Dans mon ambition et de mon désir ardent de réussite. Je suis animé(e) par la passion de me challenger et me surpasser.", option1: "ChaudFeminin", option2: "ChaudMasculin", element1: "Air", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Face à un week-end imprévu sans aucun plan, tu cherches à remplir ce temps libre pour te sentir énergisé(e) et satisfait(e).", opt1 : "Option 1 : Je décide spontanément d'organiser une activité extérieure stimulante, comme une randonnée ou un sport collectif.", opt2 : "Option 2 : J'opte pour une activité sociale, comme inviter des amis pour un barbecue ou une soirée jeux, pour me sentir engagé(e) avec les autres.", option1: "ChaudMasculin", option2: "ChaudFeminin", element1: "Feu", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu sors au cinéma avec ton(ta) partenaire, et tu dois choisir ce que vous allez regarder. ", opt1 : "Option 1 : Je choisis un film fascinant, mêlant humour et profondeur, où le parcours du héros me motive et me fait rêver.", opt2 : "Option 2 : J'opte pour un film d'action palpitant, où le héros intrépide surmonte les obstacles avec courage, bravoure et détermination.", option1: "ChaudFeminin", option2: "ChaudMasculin", element1: "Air", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une situation de crise où les émotions sont à vif et que la tension est palpable.", opt1 : "Option 1 : Mon atout majeur c'est ma patience, ma résistance au stress sans pour autant me précipiter.", opt2 : "Option 2 : Mon atout majeur est ma volonté et ma capacité à apaiser les tensions car j'accumule les ondes négatives.", option1: "FroidFeminin", option2: "FroidMasculin", element1: "Terre", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu planifies un événement important avec tes amis, chacun doit apporter sa contribution pour que tout soit parfait.", opt1 : "Option 1 : Je suis celui(celle) qui peut organiser méticuleusement la réunion, veillant à ce que rien ne soit laissé au hasard.", opt2 : "Option 2 : Je suis celui(celle) qui, par son approche objective des choses va identifier rapidement les priorités.", option1: "SecMasculin", option2: "SecFeminin", element1: "Terre", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Pendant une soirée entre amis, la conversation tourne autour de l'auto-évaluation et chacun partage son propre regard sur soi.", opt1 : "Option 1 : Je me considère comme une personne calme et détendue. J'aime prendre mon temps pour comprendre le fond des choses.", opt2 : "Option 2 : Je me vois comme une personne prudente et consciencieuse, attentive à l'équilibre à long terme dans sa vie.", option1: "FroidMasculin", option2: "FroidFeminin", element1: "Eau", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Dans un événement professionnel, tu as l'occasion de te présenter à des collègues de l'industrie.", opt1 : "Option 1 : Je me présente simplement et avec concision, je résume ce que je fais et ce que je peux offrir.", opt2 : "Option 2 : Je me présente formellement, je structure ma présentation pour refléter mon professionnalisme.", option1: "SecFeminin", option2: "SecMasculin", element1: "Feu", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une soirée, tu es présenté à un groupe de personnes que tu ne connais pas encore.", opt1 : "Option 1 : Je suis assez cru(e) dans mes interactions, je parle peu mais de manière ciblée sur les informations importantes.", opt2 : "Option 2 : Je reste observateur(trice) et analytique, en posant plusieurs questions avant de m'ouvrir davantage.", option1: "SecFeminin", option2: "SecMasculin", element1: "Feu", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es responsable de choisir le prochain livre pour le club de lecture.", opt1 : "Option 1 : Je sélectionne un livre qui offre une profondeur conceptuelle, en m'appuyant sur le gain de connaissances pour guider mon choix.", opt2 : "Option 2 : Je choisis un livre qui résonne avec les expériences des membres du groupe, en me basant sur ce qui peut toucher le cœur de chacun.", option1: "HumideMasculin", option2: "HumideFeminin", element1: "Air", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Face aux défis quotidiens, tu trouves la force de persévérer.", opt1 : "Option 1 : Dans ma capacité à avancer avec précaution, en pesant chaque décision pour assurer la sécurité et équilibre.", opt2 : "Option 2 : Dans ma capacité à rester calme et à maintenir une atmosphère paisible autour de toi. ", option1: "FroidFeminin", option2: "FroidMasculin", element1: "Terre", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es confronté(e) à une période de changements et d'incertitudes, tu cherches à t'adapter pour maintenir ton bien-être.", opt1 : "Option 1 : J'éxplore des livres et des articles sur mes incertitudes pour mieux comprendre la situation.", opt2 : "Option 2 : Je me tourne vers des activités qui me permettent d'exprimer et de comprendre mes émotions, comme l'écriture d'un journal intime.", option1: "HumideMasculin", option2: "HumideFeminin", element1: "Air", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es dans un magasin d'électronique, face à une large gamme de smartphones et tu dois en choisir un.", opt1 : "Option 1 : Je passe beaucoup de temps à me décider, je compare chaque produit pour m'assurer de faire le choix le plus judicieux.", opt2 : "Option 2 : Je décide assez rapidement en me basant sur quelques caractéristiques clés qui répondent à mes besoins.", option1: "SecMasculin", option2: "SecFeminin", element1: "Terre", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu participes à un concours de débat où l'éloquence.", opt1 : "Option 1 : Je mets l'accent sur des anecdotes, en me connectant sentimentalement avec le jury.", opt2 : "Option 2 : J'utilise mon habileté à tisser des arguments complexes et à présenter des idées de manière cohérente.", option1: "HumideFeminin", option2: "HumideMasculin", element1: "Eau", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es en train de préparer une présentation importante pour demain, tu ressens une montée de stress envahissante.", opt1 : "Option 1 : Je choisis de me concentrer sur l'aspect positif de ma nervosité, en me rappelant toutes les fois où j'ai réussi sous pression. ", opt2 : "Option 2 : Je choisis de l'extérioriser physiquement. Je fais une série de pompes ou je sors courir un instant.", option1: "ChaudFeminin", option2: "ChaudMasculin", element1: "Air", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une réunion de travail, un conflit éclate entre deux collègues sur la direction d'un projet.", opt1 : "Option 1 : Je réagis spontanément, partageant mes idées avec vigueur et cherchant à imposer ma vision du projet.", opt2 : "Option 2 : Je m'exprime avec intérêt, partageant mes impréssions et invitant les autres à faire de même pour trouver une solution harmonieuse.", option1: "ChaudMasculin", option2: "ChaudFeminin", element1: "Feu", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Dans un monde imaginaire où le chaos règne, tu possèdes un pouvoir unique qui te permet de…", opt1 : "Option 1 : former un bouclier impénétrable, conservant l'équilibre à l'intérieur, même lorsque tout s'effondre autour.", opt2 : "Option 2 : créer une zone de sérénité absolue, où le temps semble s'arrêter, permettant à tous de respirer et de penser clairement.", option1: "FroidFeminin", option2: "FroidMasculin", element1: "Terre", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lorsque tu as du temps libre et que tu cherches à te détendre, tu as tendance à choisir des activités qui…", opt1 : "Option 1 : me demandent de suivre des instructions précises, comme réaliser une recette de cuisine complexe.", opt2 : "Option 2 : me permettent d'agir spontanément et rapidement, comme jouer à un jeu vidéo qui teste tes réflexes.", option1: "SecMasculin", option2: "SecFeminin", element1: "Terre", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'un événement important où tes amis ont besoin de motivation et d'encouragement :", opt1 : "Option 1 : Mes amis comptent sur moi pour les pousser à dépasser leurs limites et à viser plus haut avec détermination.", opt2 : "Option 2 : Mes amis se fient à ma capacité à les motiver chaleureusement, en leur apportant une bonne dose d'optimisme.", option1: "ChaudMasculin", option2: "ChaudFeminin", element1: "Feu", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: " Tu es inscrit(e) à un marathon d'échecs.", opt1 : "Option 1 : Je joue prudemment en anticipant les mouvements de mon adversaire et en construisant une défense solide.", opt2 : "Option 2 : Je m'attache à rester détaché(e), prenant le temps nécessaire pour évaluer chaque coup sans me laisser influencer par la pression.", option1: "FroidFeminin", option2: "FroidMasculin", element1: "Terre", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es en plein préparatif d'un dîner important et tu découvres qu'il te manque un ingrédient pour ton plat principal. Que fais-tu ?", opt1 : "Option 1 : Je prends un moment pour évaluer la situation et décider si je dois aller chercher l'ingrédient manquant ou faire comme ça.", opt2 : "Option 2 : Je réfléchis à une solution m'évitant le stress, comme remplacer l'ingrédient manquant un autre, sans me précipiter.", option1: "FroidFeminin", option2: "FroidMasculin", element1: "Terre", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une situation de crise au travail où une décision rapide est nécessaire, tu es celui/celle…", opt1 : "Option 1 : qui est déstabilisé(e) par la pression de devoir agir rapidement, car cela va à l'encontre de ma nature modérée et tempérée. ", opt2 : "Option 2 : qui se sent mal à l'aise et perturbé(e) par la nécessité d'une action immédiate, car cela menace ma prudence et ma répartie.", option1: "FroidMasculin", option2: "FroidFeminin", element1: "Eau", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une discussion de groupe pour décider de la meilleure approche à un problème commun.", opt1 : "Option 1 : Mon défaut est que je veux toujours suivre les règles et procédures établies, peu enclin(e) à sortir du cadre.", opt2 : "Option 2 : Mon défaut est ma tendance à être trop franc(che) et sans détour dans mes critiques.", option1: "SecMasculin", option2: "SecFeminin", element1: "Terre", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es en salle d'attente, quelques minutes avant un entretien d'embauche crucial.", opt1 : "Option 1 : Je me concentre sur la révision de mes notes, murmurant des réponses à des questions potentielles pour me rassurer.", opt2 : "Option 2 : J'essaye de me calmer, je ferme les yeux et respire profondément pour me détacher du stress.", option1: "FroidFeminin", option2: "FroidMasculin", element1: "Terre", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Quand je pense à ma personnalité et à mon approche de la vie, je me considère", opt1 : "Option 1 : Comme quelqu'un(e) d'impulsif(ve) et de dynamique, qui vit avec ambition et ne recule devant rien pour atteindre ses objectifs.", opt2 : "Option 2 : Comme une personne passionnée et expressive, qui met son énergie dans tout ce qu'elle fait et l'insuffle chez les autres.", option1: "ChaudMasculin", option2: "ChaudFeminin", element1: "Feu", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Pendant une réunion de famille, un jeu est proposé pour partager des traits ou des manies que les autres ne connaissent pas.", opt1 : "Option 1 : J'ai un planning et une organisation constante qui me procurent un sentiment de contrôle et de sécurité.", opt2 : "Option 2 : J'ai une routine matinale d'apaisement et de méditation pour me préparer mentalement à la journée, peu importe les circonstances.", option1: "FroidFeminin", option2: "FroidMasculin", element1: "Terre", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Dans un univers de science-fiction où quelques êtres auraient des capacités spéciales, la tienne serait..", opt1 : "Option 1 : Ressentir et apaiser les vagues d'émotions autour de moi, créant une harmonie et une connexion profonde entre les êtres.", opt2 : "Option 2 : Décrypter les concepts et les pensées, me rendant capable de dialoguer et de comprendre toute forme d'intelligence.", option1: "HumideFeminin", option2: "HumideMasculin", element1: "Eau", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une soirée cinéma entre amis, c'est à toi de choisir le film. Tu optes pour :", opt1 : "Option 1 : un film d'action dynamique où la clarté de l'intrigue priment sur la complexité de l'histoire.", opt2 : "Option 2 : une série policière qui nécessite de prêter attention à chaque détail pour assembler les pièces du puzzle.", option1: "SecFeminin", option2: "SecMasculin", element1: "Feu", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une soirée entre amis, un(e) invité(e) que tu ne connais pas bien fait une remarque déplacée et irrespectueuse à ton égard.", opt1 : "Option 1 : Je réagis immédiatement avec impulsivité et autorité, montrant vivement que je ne laisse personne me manquer de respect.", opt2 : "Option 2 : Je décide de confronter vivement l'invité avec des questions ouvertes pour montrer l'inappropriation de son commentaire.", option1: "ChaudMasculin", option2: "ChaudFeminin", element1: "Feu", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Face à une semaine chargée, tu as besoin de certaines conditions pour maintenir ton bien-être.", opt1 : "Option 1 : Je prévois des moments de calme pour réfléchir et me ressourcer, évitant ainsi le surmenage et préservant ma sérénité.", opt2 : "Option 2 :  J'organise ma semaine de manière à avoir suffisamment de temps pour mes tâches, m'évitant toute instabilité de planning.", option1: "FroidMasculin", option2: "FroidFeminin", element1: "Eau", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es dans une réunion de travail et une décision importante doit être prise rapidement, mais les informations sont incomplètes.", opt1 : "Option 1 : Je préfère demander un délai pour prendre la décision afin de rassembler plus d'informations et d'éviter toute précipitation.", opt2 : "Option 2 : Je me base sur les informations disponibles et fais confiance en mon sens de la répartie, même si je suis mal à l'aise avec l'urgence.", option1: "FroidMasculin", option2: "FroidFeminin", element1: "Eau", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une conversation profonde sur des sujets personnels.", opt1 : "Option 1 : Mes amis me font confiance pour comprendre facilement leur opinion et apporter d'autres perspectives différentes de la leur.", opt2 : "Option 2 : Ils se tournent vers moi pour un soutien empathique sincère, leur offrant un cœur qui comprend vraiment leur situation.", option1: "HumideMasculin", option2: "HumideFeminin", element1: "Air", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une activité sociale, on te demande de partager comment tu te vois avec les autres.", opt1 : "Option 1 : Je suis une personne de principes, méthodique et organisée. Je m'efforce toujours de faire les choses précisement et correctement.", opt2 : "Option 2 : Je me considère comme quelqu'un de transparent, ferme et terre à terre. Je ne m'encombre pas de détails dans ma vie.", option1: "SecMasculin", option2: "SecFeminin", element1: "Terre", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Chaque matin, quelle serait la volonté qui t'anime dès le réveil ?", opt1 : "Option 1 : Le désir de concrétiser mes actions tout en me concentrant sur ce qui est essentiel pour moi.", opt2 : "Option 2 : Vivre une vie alignée avec mes principes, une vie équilibrée et conforme dans tous les aspects.", option1: "SecFeminin", option2: "SecMasculin", element1: "Feu", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Quand il s'agit de te ressourcer après une longue semaine, tu as tendance à opter pour.", opt1 : "Option 1 : Des activités qui me permettent de me défouler, comme la musculation, la rénovation, une soirée festive.", opt2 : "Option 2 : Des activités créatives qui me permettent de distiller des ondes positives, comme le théâtre, la comédie ou une sortie entre amis.", option1: "ChaudMasculin", option2: "ChaudFeminin", element1: "Feu", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une soirée de retrouvailles avec d'anciens camarades de classe.", opt1 : "Option 1 : Je suis celui(celle) qui, curieux(se) et ouvert(e), facilite la conversation et encourage les autres à s'exprimer et à partager.", opt2 : "Option 2 : Je suis celui(celle) qui, attentif(ve), écoute activement et réagit avec compassion aux histoires des autres.", option1: "HumideMasculin", option2: "HumideFeminin", element1: "Air", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu participes à une réunion de brainstorming, l'ambiance est dynamique et les suggestions fusent de toutes parts.", opt1 : "Option 1 : Je suis celui(celle) qui analyse posément et apporte une perspective qui tempère l'enthousiasme général.", opt2 : "Option 2 : Je suis celui(celle) qui préfère la sécurité et est mal à l'aise avec les idées trop audacieuses ou non éprouvées.", option1: "FroidMasculin", option2: "FroidFeminin", element1: "Eau", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Vous sortez entre amis et soudainement, le lieu principal que vous aviez prévu de visiter est fermé sans préavis. Comment réagis-tu ?", opt1 : "Option 1 : Je reste en retrait et j'écoute les suggestions des autres, prêt(e) à m'adapter au choix qui semble faire consensus.", opt2 : "Option 2 : Je dégaine une liste d'alternatives que j'avais déjà envisagées.", option1: "HumideFeminin", option2: "HumideMasculin", element1: "Eau", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Un(e) ami(e) te confie une préoccupation importante et te demande ton avis pour l'aider à prendre une décision.", opt1 : "Option 1 : Je l'encourage à choisir ce qui lui apportera la stabilité émotionnelle, la sérénité et la paix sur le long terme.", opt2 : "Option 2 : Je pèse avec lui le pour et le contre de chaque option, et je mets en avant la prudence et la durabilité à long terme.", option1: "FroidMasculin", option2: "FroidFeminin", element1: "Eau", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une réunion de famille où différents sujets sont abordés, tu dois exprimer ton point de vue.", opt1 : "Option 1 : Je communique en m'appuyant sur mon raisonnement et j'insiste sur les particularités de mon opinion.", opt2 : "Option 2 : J'y vais franchement, en utilisant un langage clair et sans détour pour exprimer synthétiquement mes opinions.", option1: "SecMasculin", option2: "SecFeminin", element1: "Terre", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une soirée entre amis, le groupe commence à discuter des habitudes et des traits de caractère uniques de chacun.", opt1 : "Option 1 : Je partage que tu aimes créer des playlists musicales pour chaque humeur ou situation.", opt2 : "Option 2 : Je révèle que j'ai toujours un endroit pour noter mes idées, mes pensées ou des observations sur les gens et les environnements.", option1: "HumideFeminin", option2: "HumideMasculin", element1: "Eau", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Ton ami(e) se sent dépassé par les événements de sa vie et cherche un moyen de mieux les gérer.", opt1 : "Option 1 : Je lui conseille de se plonger dans la lecture de livres de développement personnel pour l'aider à structurer ses pensées.", opt2 : "Option 2 : Je l'encourage à pratiquer le yoga ou la méditation, pour l'aider à se recentrer et à apaiser son tumulte intérieur.", option1: "HumideMasculin", option2: "HumideFeminin", element1: "Air", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Quel besoin pour te sentir équilibré(e) et serein(e) dans ton quotidien ?", opt1 : "Option 1 : Une structure claire et une routine organisée. La prévisibilité et la planification me permettent de me sentir en contrôle.", opt2 : "Option 2 : Le fondamental c'est la simplicité et l'efficience. Pas de complications futiles.", option1: "SecMasculin", option2: "SecFeminin", element1: "Terre", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lorsque je réfléchis à qui je suis, je me sens…", opt1 : "Option 1 : Comme un(e) penseur(se) profond(e), je m'épanouis dans la compréhension des concepts et j'aime partager mes découvertes.", opt2 : "Option 2 : Comme un(e) personne pleine d'empathie. Mes sentiments sont ma boussole et j'aime me connecter avec les autres.", option1: "HumideMasculin", option2: "HumideFeminin", element1: "Air", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Dans un monde de super-héros, tu serais connu(e) pour ta capacité à…", opt1 : "Option 1 : Insuffler de l'énergie vitale, revitalisant mes alliés et redonnant espoir même dans les situations les plus désespérées.", opt2 : "Option 2 : La résistance aux dommages physiques, me permettant de me lancer facilement en première ligne et me sacrifier pour mes alliés.", option1: "ChaudFeminin", option2: "ChaudMasculin", element1: "Air", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu arrives à une réunion professionnelle où tu ne connais personne et tu dois interagir avec de nouveaux collègues.", opt1 : "Option 1 : Je salue chacun poliment, j'établis un contact rassurant et j'évalue le terrain prudemment avant de m'impliquer.", opt2 : "Option 2 : Je garde une attitude réservée, j'observe les dynamiques de groupe et j'écoute attentivement avant de partager mes opinions.", option1: "FroidFeminin", option2: "FroidMasculin", element1: "Terre", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "C'est le week-end et tu as du temps pour toi. Tu décides de regarder un film qui va te mettre dans un bon mood.", opt1 : "Option 1 : Je préfère un film émouvant, qui me plonge dans les complexités des relations humaines et me fait vivre un tourbillon d'émotions.", opt2 : "Option 2 : Je me tourne vers un documentaire qui explore des concepts profonds ou des mystères de l'univers.", option1: "HumideFeminin", option2: "HumideMasculin", element1: "Eau", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu te prépares à un concours de stratégie.", opt1 : "Option 1 : Je me concentre à établir une stratégie simple et efficace, me permettant de réagir rapidement et de rester concentré.", opt2 : "Option 2 : J'ai une approche méthodique, évaluant en détail les meilleures stratégies pour assurer la victoire.", option1: "SecFeminin", option2: "SecMasculin", element1: "Feu", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es en plein cœur d'une compétition sportive d'équipe.", opt1 : "Option 1 : J'encourage chaque membre de l'équipe à être solidaire et à donner le meilleur de lui-même pour le groupe.", opt2 : "Option 2 : Je me donne corps et âme dans chaque action, poussant mes limites au maximum pour être sûr de ne rien regretter.", option1: "ChaudFeminin", option2: "ChaudMasculin", element1: "Air", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une dispute de couple sur la planification des vacances, les tensions montent.", opt1 : "Option 1 : Je garde mon calme, pense long terme et proposes un compromis qui respecte les préférences de chacun.", opt2 : "Option 2 : Je prends le temps d'analyser les options, insistant sur la nécessité de choisir la destination la plus sûre et la plus pratique pour tous.", option1: "FroidMasculin", option2: "FroidFeminin", element1: "Eau", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es à un événement de réseautage où chacun doit se lever et se présenter brièvement au groupe.", opt1 : "Option 1 : Je fais tout pour que les autres soient marqués par ma personne et me retiennent comme une personne sympathique et atypique.", opt2 : "Option 2 : Je fais tout pour que les autres me regardent avec admiration et je mets en avant ma fougue et mon audace.", option1: "ChaudFeminin", option2: "ChaudMasculin", element1: "Air", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une réunion de famille, on te demande de parler de toi et de tes réalisations récentes.", opt1 : "Option 1 : J'aborde un peu mes succès mais je suis clairement mal à l'aise avec l'attention portée sur moi, je dérives donc vers autre chose.", opt2 : "Option 2 : Avec une certaine réticence, je partage mes accomplissements tout en restant succinct(e) et réservé(e).", option1: "FroidFeminin", option2: "FroidMasculin", element1: "Terre", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es en plein déménagement et tu dois décider rapidement ce que tu emportes avec toi et ce que tu laisses derrière.", opt1 : "Option 1 : C'est assez rapide pour moi car je n'ai pas de problèmes à me débarasser des objets en général.", opt2 : "Option 2 : Je suis mal à l'aise avec l'exercice car je n'arrive pas à me défaire d'entrevoir l'utilité actuelle ou future de chaque objet. ", option1: "SecFeminin", option2: "SecMasculin", element1: "Feu", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "En plein milieu d'une soirée animée, un débat passionné éclate sur un sujet controversé.", opt1 : "Option 1 : Je suis celui(celle) qui avec dynamisme exprime ses idées sur le sujet, influençant les avis, même ceux contraires.", opt2 : "Option 2 : Je suis celui(celle) qui sans hésiter prend position avec fougue, défendant mon point de vue avec assurance et domination.", option1: "ChaudFeminin", option2: "ChaudMasculin", element1: "Air", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu organises un voyage de groupe avec des amis.", opt1 : "Option 1 : Mes amis savent qu'ils peuvent compter sur ma fiabilité pour organiser le voyage en détail et avec minutie.", opt2 : "Option 2 : Mes amis me font confiance pour organiser efficacement le voyage sans complications.", option1: "SecMasculin", option2: "SecFeminin", element1: "Terre", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Quand tu as un moment pour toi et que tu souhaites te recentrer, tu privilégies des activités qui...", opt1 : "Option 1 : Me permettent de me retrouver dans un calme absolu, comme la méditation ou la lecture d'un livre.", opt2 : "Option 2 : M'offrent une structure et une routine rassurante, comme le tricot ou la résolution de mots croisés.", option1: "FroidMasculin", option2: "FroidFeminin", element1: "Eau", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'un premier rendez-vous galant, tu cherches à connaître la personne en face de toi.", opt1 : "Option 1 : Je privilégie les conversations sur les expériences de vie pour ressentir et créer la connexion avec la personne.", opt2 : "Option 2 : Je m'engage dans des discussions sur des sujets plus ou moins intellectuels pour voir comment la personne pense et ses opinions.", option1: "HumideFeminin", option2: "HumideMasculin", element1: "Eau", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Après une longue semaine, tu cherches un film qui te permet de te détendre et de t'évader.", opt1 : "Option 1 : J'opte pour un film nostalgique, peut-être un classique de mon enfance ou un film qui me rappelle de bons souvenirs.", opt2 : "Option 2 : Je choisis un film romantique car c'est ce que j'aime et que j'ai toujours l'habitude de regarder.", option1: "FroidFeminin", option2: "FroidMasculin", element1: "Terre", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Une discussion tendue surgit entre toi et ton partenaire à propos des tâches ménagères.", opt1 : "Option 1 : Je cherche à établir des règles et des accords précis pour éviter de futures mésententes.", opt2 : "Option 2 : Je propose une solution concrète en évitant de m'attarder sur les émotions pour se concentrer sur la résolution du problème.", option1: "SecMasculin", option2: "SecFeminin", element1: "Terre", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une réunion de famille où les émotions sont fortes et que chacun partage ses expériences et sentiments.", opt1 : "Option 1 : Mon atout majeur est ma réceptivité, me permettant de me mettre véritablement à la place des autres pour sentir ce qu'ils ressentent.", opt2 : "Option 2 : Mon atout majeur est ma capacité à comprendre et articuler idées et points de vue, facilitant la communication durant la réunion.", option1: "HumideFeminin", option2: "HumideMasculin", element1: "Eau", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu avais prévu une journée tranquille chez toi, mais un ami t'appelle en urgence pour l'aider à déménager.", opt1 : "Option 1 : Je suis surpris(e) mais je m'adapte rapidement. Je fonce pour l'aider si je n'ai rien de prioritaire à faire.", opt2 : "Option 2 : Je suis ssez contrarié(e) car cela perturbe mon planning. C'est un imprévu donc il peut comprendre mon indisponibilité.", option1: "SecFeminin", option2: "SecMasculin", element1: "Feu", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "En te promenant, tu rencontres par hasard une personne qui attire ton attention et avec qui tu engages la conversation.", opt1 : "Option 1 : Je suis expressif(ve), je partage une anecdote ou une passion pour briser la glace et l'inviter à s'engager dans un échange stimulant.", opt2 : "Option 2 : Je suis proactif(ve), je propose rapidement de partager une activité comme aller boire un café sur le pouce.", option1: "ChaudFeminin", option2: "ChaudMasculin", element1: "Air", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une journée en plein air dans une forêt, une averse soudaine vient gâcher vos plans. ", opt1 : "Option 1 : Je prends les devants pour proposer de transformer ce contretemps en avantage, en suggérant une activité amusante sous la pluie.", opt2 : "Option 2 : Je prends les devants pour motiver le groupe, et me dévoue à construire un abri avec ce que nous avons sous la main.", option1: "ChaudFeminin", option2: "ChaudMasculin", element1: "Air", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lorsque tu cherches à te divertir et à te relaxer, tu préfères des loisirs qui.", opt1 : "Option 1 : Stimulent mon intellect et ma curiosité, comme regarder des documentaires ou lire sur des sujets qui m'intriguent.", opt2 : "Option 2 : Me permettent de m'exprimer et de me connecter avec les autres, comme peindre ou participer à des cours de danse.", option1: "HumideMasculin", option2: "HumideFeminin", element1: "Air", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Ton ami(e) se sent découragé(e) après une série d'échecs et a besoin de retrouver la motivation pour continuer à avancer.", opt1 : "Option 1 : Je lui dis de se fixer de nouveaux défis, pour retrouver le goût de la victoire et la satisfaction de surmonter les obstacles.", opt2 : "Option 2 : Je lui suggères de prendre un moment pour célébrer ses réussites passées afin de raviver la flamme de sa motivation.", option1: "ChaudMasculin", option2: "ChaudFeminin", element1: "Feu", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Dans le flux incessant de la vie, tu trouves des raisons de continuer à avancer et à évoluer.", opt1 : "Option 1 : C'est mon empathie profonde et ma volonter de connecter avec les autres qui te motivent.", opt2 : "Option 2 : Ma motivation est alimentée par ma soif de connaissances et ta curiosité insatiable, de comprendre le monde autour de moi.", option1: "HumideFeminin", option2: "HumideMasculin", element1: "Eau", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une soirée entre amis, la conversation dérive sur un sujet complexe et nuancé.", opt1 : "Option 1 : Je partage avec enthousiasme mes connaissances et idées, tout en restant ouvert aux opinions des autres pour enrichir la discussion.", opt2 : "Option 2 : Je suis porté(e) sur l'aspect affectif de la conversation, tout en étant réceptif(ve) et souvent en accord avec les perspectives des autres.", option1: "HumideMasculin", option2: "HumideFeminin", element1: "Air", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Après une soirée entre amis, une discussion sur un geste mal placé dégénère en dispute avec ton(ta) partenaire.", opt1 : "Option 1 : Je réagis en exprimant mes opinions avec ardeur et autorité, ce qui peut parfois être perçu comme brusque ou insensible.", opt2 : "Option 2 : Emporté(e) par la passion, je défends mon opinion vivement, tout en essayant de maintenir une dynamique positive dans l'échange.", option1: "ChaudMasculin", option2: "ChaudFeminin", element1: "Feu", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une dispute de couple concernant la gestion des finances, les tensions montent et les émotions s'intensifient.", opt1 : "Option 1 : J'insiste pour que mon partenaire comprenne mon point de vue et je cherche à comprendre les motivations derrière ses choix.", opt2 : "Option 2 : J'insiste sur l'empathie et la compréhension mutuelle pour trouver une résolution harmonieuse.", option1: "HumideMasculin", option2: "HumideFeminin", element1: "Air", element2: "Eau", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une compétition sportive où tu es le(la) capitaine de ton équipe", opt1 : "Option 1 : Mon atout majeur est mon enthousiasme contagieux, ce qui inspire mes coéquipiers à me faire confiance pour guider le groupe.", opt2 : "Option 2 : Mon atout majeur est ma tenacité et mon esprit compétitif, qui me poussent à prendre les devants et inspirer le respect.", option1: "ChaudFeminin", option2: "ChaudMasculin", element1: "Air", element2: "Feu", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'un atelier de développement personnel où chacun est invité à partager ses expériences et ses apprentissages.", opt1 : "Option 1 : Je partage mes histoires avec une grande transparence, en insistant sur les sentiments et les relations qui m'ont impactés.", opt2 : "Option 2 : Je partage les expériences qui ont enrichi ma compréhension du monde, en mettant l'accent sur les concepts que j'ai explorés.", option1: "HumideFeminin", option2: "HumideMasculin", element1: "Eau", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es manager d'une équipe de projet et tu dois décider de la direction à prendre pour une campagne importante.", opt1 : "Option 1 : Je prends une décision rapide et audacieuse, en m'appuyant sur mon instinct et mon flair.", opt2 : "Option 2 : Je suis guidé(e) par ma passion pour le projet et je choisis la direction qui suscite le plus d'engagement de la part de l'équipe.", option1: "ChaudMasculin", option2: "ChaudFeminin", element1: "Feu", element2: "Air", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Tu es en réunion de travail et un débat animé éclate sur la direction à prendre pour un projet important.", opt1 : "Option 1 : Je reste calme, j'écoute et je prends la parole de manière posée pour apporter une perspective pacifiante et mesurée.", opt2 : "Option 2 : Je prends mon temps pour formuler une réponse équilibrée et délibérée, en veillant à ne pas heurter les sensibilités.", option1: "FroidMasculin", option2: "FroidFeminin", element1: "Eau", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option 2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+    { statement: "Lors d'une soirée entre amis, on joue à un jeu où chacun doit révéler une de ses particularités peu commune.", opt1 : "Option 1 : Je trie toutes les applications sur mon téléphone par catégories, sous-catégories, fréquence d'utilisation et couleur.", opt2 : "Option 2 : Je suis capable de remarquer si un objet a été déplacé même d'un millimètre dans mon espace personnel.", option1: "SecFeminin", option2: "SecMasculin", element1: "Feu", element2: "Terre", choices: ["Assurément l'option 1 plutôt que l'option 2", "Plutôt l'option 1 que l'option  2", "Ça ne me ressemble pas trop, surtout l'option 1", "Ça ne me ressemble pas trop, surtout l'option 2", "Plutôt l'option 2 que l'option 1", "Assurément l'option 2 plutôt que l'option 1"] },
+];
+  let scores = {
+    scoreTerre: 0,
+    scoreEau: 0,
+    scoreAir: 0,
+    scoreFeu: 0,
+    scoreSecMasculin: 0,
+    scoreSecFeminin: 0,
+    scoreFroidMasculin: 0,
+    scoreFroidFeminin: 0,
+    scoreHumideMasculin: 0,
+    scoreHumideFeminin: 0,
+    scoreChaudMasculin: 0,
+    scoreChaudFeminin: 0
+  };
+  let currentStatementIndex = 0;
+  let lastChoice = 10;
+  let basicSelections = [];
+  let extraSelections = [];
+
+  function updateProgress() {
+    const progressText = document.getElementById("progress");
+    const progressBar = document.getElementById("progress-bar");
+    
+    progressText.textContent = currentStatementIndex + 1;
+    progressBar.style.width = `${(currentStatementIndex + 1) / statements.length * 100}%`;
+  }
+
+  function displayStatement() {
+    const statement = statements[currentStatementIndex];
+    const statementContainer = document.getElementById('question-container');
+
+    updateProgress();
+
+    let choicesHtml = statement.choices.map((choice, index) => {
+      let isSelected = basicSelections[currentStatementIndex] === index;
+      let extraClass = isSelected ? 'bg-purple-800 text-white hover:bg-purple-800' : '';
+      return `<button class="choice bg-purple-200 px-4 py-2 rounded hover:shadow hover:bg-purple-400 hover:text-white transition transform hover:scale-110 ${extraClass}"><b>${choice}</b></button>`;
+    }).join('');
+
+    statementContainer.innerHTML = `
+      <p id="question" class="choice bg-purple-800 px-4 py-2 rounded text-center text-white font-semibold">${statement.statement}</p>
+      <p id="question" class="choice bg-purple-400 px-4 py-2 rounded text-center text-white font-semibold">${statement.opt1}</p>
+      <p id="question" class="choice bg-purple-400 px-4 py-2 rounded text-center text-white font-semibold">${statement.opt2}</p>
+      <br/>
+      <p id="question" ><center><b> Quelle option te correspond le mieux ? </b></center></p>
+      <br/>
+      <div id="options" class="grid grid-cols-1 gap-4 text-purple-800 font-bold">
+        ${choicesHtml}
+      </div>
+    `;
+
+    document.querySelectorAll('#options .choice').forEach((choice, index) => {
+      choice.addEventListener('click', () => handleChoice(index));
+    });
+
+    // Conditionally display extra choices based on selection or statement requirements
+    displayExtraChoices();
+  }
+
+  function displayExtraChoices() {
+    const optionsContainer = document.getElementById('options');
+    
+    // Clear extra options before showing new ones
+    const extraOptions = document.querySelectorAll('.extra');
+    extraOptions.forEach(extra => extra.remove());
+
+    // Check if we should show extra options
+    if (basicSelections[currentStatementIndex] === 0) {
+      const extra1Html = `<button id="extra1" class="extra bg-purple-200 px-4 py-2 rounded hover:shadow hover:bg-purple-400 hover:text-white transition transform hover:scale-110">L'option 1 me correspond particulièrement</button>`;
+      optionsContainer.insertAdjacentHTML('afterbegin', extra1Html);
+      document.getElementById('extra1').addEventListener('click', () => handleExtraChoice('extra1'));
+    }
+
+    if (basicSelections[currentStatementIndex] === statements[currentStatementIndex].choices.length - 1) {
+      const extra2Html = `<button id="extra2" class="extra bg-purple-200 px-4 py-2 rounded hover:shadow hover:bg-purple-400 hover:text-white transition transform hover:scale-110">L'option 2 me correspond particulièrement</button>`;
+      optionsContainer.insertAdjacentHTML('beforeend', extra2Html);
+      document.getElementById('extra2').addEventListener('click', () => handleExtraChoice('extra2'));
+    }
+
+    // Highlight extra options if they have been selected
+    extraSelections.forEach((extraChoice, index) => {
+      if (currentStatementIndex === index) {
+        let extraButton = document.getElementById(extraChoice);
+        if (extraButton) {
+          extraButton.classList.add('bg-purple-800', 'text-white');
+          extraButton.classList.add("hover:shadow", "hover:bg-purple-800", "hover:text-white", "transition", "transform", "hover:scale-110");
+        }
+      }
+    });
+  }
+
+  function handleChoice(index) {
+    // Toggle selection for basic options
+    if (basicSelections[currentStatementIndex] === index) {
+      // Unselect if the same option is clicked again
+      delete basicSelections[currentStatementIndex];
+      lastChoice = 10;
+      switch(index) {
+        case 0: // basiqueChoix1
+          adjustScores(-2, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+        case 1: // basiqueChoix2
+          adjustScores(-1, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+        case 2: // basiqueChoix3
+          adjustScores(0.5, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+        case 3: // basiqueChoix4
+          adjustScores(0.5, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+        case 4: // basiqueChoix5
+          adjustScores(-1, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+        case 5: // basiqueChoix6
+          adjustScores(-2, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+      }
+      hideExtraOptions();
+    } else {
+      if (lastChoice !== 10) {
+        switch(lastChoice) {
+          case 0: // basiqueChoix1
+            adjustScores(-2, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+            break;
+          case 1: // basiqueChoix2
+            adjustScores(-1, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+            break;
+          case 2: // basiqueChoix3
+            adjustScores(0.5, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+            break;
+          case 3: // basiqueChoix4
+            adjustScores(0.5, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+            break;
+          case 4: // basiqueChoix5
+            adjustScores(-1, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+            break;
+          case 5: // basiqueChoix6
+            adjustScores(-2, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+            break;
+        }
+      }
+            // Update scores based on the choice made
+      lastChoice = index;
+      switch(index) {
+        case 0: // basiqueChoix1
+          adjustScores(2, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+        case 1: // basiqueChoix2
+          adjustScores(1, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+        case 2: // basiqueChoix3
+          adjustScores(-0.5, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+        case 3: // basiqueChoix4
+          adjustScores(-0.5, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+        case 4: // basiqueChoix5
+          adjustScores(1, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+        case 5: // basiqueChoix6
+          adjustScores(2, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2);
+          break;
+      }
+      basicSelections[currentStatementIndex] = index;
+      // Show extra option if the first or last option is selected
+      showExtraOption(index);
+    }
+    displayStatement();
+  }
+
+  function handleExtraChoice(extra) {
+    // Toggle selection for extra options
+    if (extraSelections[currentStatementIndex] === extra) {
+      // Unselect the extra option if it is clicked again
+      if (extra === 'extra1'){
+         adjustScores(-1, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2, true);
+         extraSelections[currentStatementIndex] = extra;
+      } else {
+          adjustScores(-1, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2, true);
+          extraSelections[currentStatementIndex] = extra;
+        }
+      delete extraSelections[currentStatementIndex];
+    } else {
+      if (extra === 'extra1'){
+       adjustScores(1, statements[currentStatementIndex].option1, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2, true);
+       extraSelections[currentStatementIndex] = extra;
+      } else {
+          adjustScores(1, statements[currentStatementIndex].option2, statements[currentStatementIndex].element1, statements[currentStatementIndex].element2, true);
+          extraSelections[currentStatementIndex] = extra;
+        }
+    }
+    displayStatement();
+  }
+
+  function adjustScores(amount, polarity, elements1, elements2, isExtra = false) {
+    // La polarité et l'élément affectés par l'option choisie doivent être déterminés
+    // par la logique du test, ici c'est un exemple basé sur l'option choisie.
+    
+    // If it's an extra choice, Adjust polarities scores
+    if (isExtra){
+    } else {
+    // Adjust polarities scores
+      const scoreKey = `score${polarity}`;
+      scores[scoreKey] += amount;
+    }
+
+    // If it's an extra choice, also adjust element scores
+    if (isExtra) {
+        if (polarity === statements[currentStatementIndex].option1){
+          const scoreElementKey = `score${elements1}`;
+          scores[scoreElementKey] += amount;
+        } else {
+          const scoreElementKey = `score${elements2}`;
+          scores[scoreElementKey] += amount;
+        } 
+    } else if ( amount === -0.5 || amount === 0.5) {
+        // For negative adjustments, we also adjust the scores of elements
+        // but with the negative value
+        if (polarity === statements[currentStatementIndex].option1){
+          const scoreElementKey = `score${elements1}`;
+          scores[scoreElementKey] += amount;
+        } else {
+          const scoreElementKey = `score${elements2}`;
+          scores[scoreElementKey] += amount;
+        }   
+    } 
+  }
+
+  function showExtraOption(index) {
+    // Hide any previously shown extra options
+    hideExtraOptions();
+    // Show extra option if the first or last basic option is selected
+    if (index === 0) {
+      //extraSelections[currentStatementIndex] = 'extra1';
+      //delete extraSelections[currentStatementIndex];
+    } else if (index === statements[currentStatementIndex].choices.length - 1) {
+      //extraSelections[currentStatementIndex] = 'extra2';
+      //delete extraSelections[currentStatementIndex];
+    }
+  }
+
+  function hideExtraOptions() {
+    delete extraSelections[currentStatementIndex];
+  }
+
+  document.getElementById('submit').addEventListener('click', () => {
+    // Check if a selection has been made
+    if (basicSelections.hasOwnProperty(currentStatementIndex)) {
+      if (currentStatementIndex < statements.length - 1) {
+        currentStatementIndex++;
+        lastChoice = 10;
+        displayStatement();
+      } else {
+        // Vous pouvez appeler cette fonction à la fin de votre quiz ou test
+        calculateAndDisplayFinalScores();
+        console.log('Test finished');
+        // Here you would handle the end of the test, like displaying results or changing the screen.
+      }
+      document.getElementById("previous").style.visibility = "visible";
+    } else {
+      // Alert or visually indicate to the user that a choice must be made
+      alert("Please make a selection before proceeding.");
+    }
+  });
+
+  document.getElementById('previous').addEventListener('click', () => {
+    if (currentStatementIndex > 0) {
+      currentStatementIndex--;
+      displayStatement();
+    }
+    document.getElementById("previous").style.visibility = currentStatementIndex > 0 ? "visible" : "hidden";
+  });
+
+  function calculateAndDisplayFinalScores() {
+    // Créez un objet pour conserver les scores finaux calculés
+    let finalScores = {
+      scoreTerre: scores.scoreTerre,
+      scoreEau: scores.scoreEau,
+      scoreAir: scores.scoreAir,
+      scoreFeu: scores.scoreFeu,
+      scoreSecMasculin: scores.scoreSecMasculin,
+      scoreSecFeminin: scores.scoreSecFeminin,
+      scoreFroidMasculin: scores.scoreFroidMasculin,
+      scoreFroidFeminin: scores.scoreFroidFeminin,
+      scoreHumideMasculin: scores.scoreHumideMasculin,
+      scoreHumideFeminin: scores.scoreHumideFeminin,
+      scoreChaudMasculin: scores.scoreChaudMasculin,
+      scoreChaudFeminin: scores.scoreChaudFeminin
+    };
+    // Set the scores in localStorage
+    localStorage.setItem('finalScores', JSON.stringify(finalScores));
+
+    // Redirect to the results page
+    window.location.href = 'file:///C:/Users/msobtamfo/Desktop/PERSONNEL/WBWNTW/4ELTS/résultats.html';
+    
+    // Créez une chaîne de caractères HTML pour l'affichage des scores
+  //  let scoresHtml = `<div id="final-scores">`;
+  //  for (const [key, value] of Object.entries(finalScores)) {
+  //    scoresHtml += `<p>${key}: ${value}</p>`;
+  //  }
+  //  scoresHtml += `</div>`;
+
+    // Obtenez la référence de l'élément où vous souhaitez afficher les scores
+  //  const resultsContainer = document.getElementById('results-container');
+  //  if (!resultsContainer) {
+  //    console.error('No results container found on the page.');
+  //    return;
+  //  }
+
+    // Mettez à jour le HTML de l'élément de résultats avec les scores finaux
+  //  resultsContainer.innerHTML = scoresHtml;
+  }
+
+  function redirectToResults() {
+    // Serialize finalScores object into a query string
+    const queryString = Object.keys(finalScores)
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(finalScores[key])}`)
+      .join('&');
+
+    // Redirect to results.html with the query string
+    window.location.href = `results.html?${queryString}`;
+  }
+
+
+  displayStatement();
+</script>
+</body>
+</html>
