@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Results</title>
+  <!-- Other head elements -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-tr from-blue-400 to-purple-400 min-h-screen">
+  <!--div class="flex flex-col space-y-4"-->
+  <div class="container mx-auto px-4 py-20" >
+  <h1 class="text-center text-white font-semibold text-4xl mb-6">RESULTATS</h1>
+    <!-- Section de description du profil -->
+    <div id="resultsText" class="bg-white p-4 rounded shadow mb-20">
+      <!--p class="text-center">Ici, vous pouvez décrire le profil de la personne basé sur les résultats du test.</p>
+      <!-- Ici, insérez le code JavaScript pour remplir dynamiquement le contenu basé sur les résultats -->
+    </div>
+    <!-- Ligne du haut avec 3 graphiques -->
+    <!--div class="flex flex-row justify-around mb-4">
+        <canvas id="elementsRepartitionChart" class="w-1/3 h-40"></canvas>
+        <canvas id="elementsDominanceChart" class="w-1/3 h-40"></canvas>
+        <canvas id="polaritiesRepartitionChart" class="w-1/3 h-40"></canvas>
+    </div>
+    <!-- Ligne intermédiaire avec 4 graphiques -->
+    <!--div class="flex flex-row justify-around mb-4">
+        <canvas id="terreRepartitionChart" class="w-1/4 h-40"></canvas>
+        <canvas id="eauRepartitionChart" class="w-1/4 h-40"></canvas>
+        <canvas id="airRepartitionChart" class="w-1/4 h-40"></canvas>
+        <canvas id="feuRepartitionChart" class="w-1/4 h-40"></canvas>
+    </div>
+    <!-- Ligne du bas avec 4 graphiques -->
+    <!--div class="flex flex-row justify-around mb-4">
+        <canvas id="secRepartitionChart" class="w-1/4 h-40"></canvas>
+        <canvas id="froidRepartitionChart" class="w-1/4 h-40"></canvas>
+        <canvas id="humideRepartitionChart" class="w-1/4 h-40"></canvas>
+        <canvas id="chaudRepartitionChart" class="w-1/4 h-40"></canvas>
+    </div-->
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Répartition des Éléments</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="elementsRepartitionChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Dominance des Éléments</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="elementsDominanceChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Répartition des polarités</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="polaritiesRepartitionChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Répartition des polarités de l'élément Terre</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="terreRepartitionChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Répartition des polarités de l'élément Eau</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="eauRepartitionChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Répartition des polarités de l'élément Air</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="airRepartitionChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Répartition des polarités de l'élément Feu</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="feuRepartitionChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Répartition des polarités de la qualité Sec</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="secRepartitionChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Répartition des polarités de la qualité Froid</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="froidRepartitionChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Répartition des polarités de la qualité Humide</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="humideRepartitionChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+    <div class=" text-center mb-20">
+        <h2 class="text-white font-bold">Répartition des polarités de la qualité Feu</h2>
+        <div class="bg-gradient-to-tr from-blue-200-to-purple-200 p-4 rounded shadow inline-block w-96 h-96"> <!-- Contrôlez la taille ici -->
+            <canvas id="chaudRepartitionChart" class="mx-auto"></canvas>
+        </div>
+    </div>
+  </div>
+  <div id="results-container" class="bg-red">
+    <!-- Elements where you want to display the scores -->
+  </div>
+
+  <script>
+  let finalScores = {
+        scoreTerre: 0,
+        scoreEau: 0,
+        scoreAir: 0,
+        scoreFeu: 0,
+        scoreSecMasculin: 0,
+        scoreSecFeminin: 0,
+        scoreFroidMasculin: 0,
+        scoreFroidFeminin: 0,
+        scoreHumideMasculin: 0,
+        scoreHumideFeminin: 0,
+        scoreChaudMasculin: 0,
+        scoreChaudFeminin: 0
+  };
+  let pondereScores = {
+        scoreTerre: 0,
+        scoreEau: 0,
+        scoreAir: 0,
+        scoreFeu: 0,
+        scoreSecMasculin: 0,
+        scoreSecFeminin: 0,
+        scoreFroidMasculin: 0,
+        scoreFroidFeminin: 0,
+        scoreHumideMasculin: 0,
+        scoreHumideFeminin: 0,
+        scoreChaudMasculin: 0,
+        scoreChaudFeminin: 0
+  };
+  let repartitions = {
+         dominanteTerre: 0,
+         dominanteEau: 0,
+         dominanteAir: 0,
+         dominanteFeu: 0,
+         pourcentageTerre: 0,
+         pourcentageEau: 0,
+         pourcentageAir: 0,
+         pourcentageFeu: 0,
+         pourcentageSecMasculin: 0,
+         pourcentageSecFeminin: 0,
+         pourcentageFroidMasculin: 0,
+         pourcentageFroidFeminin: 0,
+         pourcentageHumideMasculin: 0,
+         pourcentageHumideFeminin: 0,
+         pourcentageChaudMasculin: 0,
+         pourcentageChaudFeminin: 0,
+        }
+  let dichotomies = {
+         dichotomieSecMasculin: 0,
+         dichotomieSecFeminin: 0,
+         dichotomieFroidMasculin: 0,
+         dichotomieFroidFeminin: 0,
+         dichotomieHumideMasculin: 0,
+         dichotomieHumideFeminin: 0,
+         dichotomieChaudMasculin: 0,
+         dichotomieChaudFeminin: 0,
+        }
+  let pourcentagePolaritesElements = {
+         pourcentagePolaritesElementsSecMasculin: 0,
+         pourcentagePolaritesElementsSecFeminin: 0,
+         pourcentagePolaritesElementsFroidMasculin: 0,
+         pourcentagePolaritesElementsFroidFeminin: 0,
+         pourcentagePolaritesElementsHumideMasculin: 0,
+         pourcentagePolaritesElementsHumideFeminin: 0,
+         pourcentagePolaritesElementsChaudMasculin: 0,
+         pourcentagePolaritesElementsChaudFeminin: 0,
+        }
+  let elementTexts = {
+        TERRE: `<br/>Stables et organisés, qui allient prudence et minutie pour construire une vie structurée et sécurisée.<br/>
+
+    <br/>Les personnes de l'élément Terre sont le fondement de toute construction durable. Elles incarnent la stabilité et la fiabilité, avec une approche de la vie qui privilégie la prudence et la planification minutieuse. Leur nature combine la réserve et la tempérance avec la minutie et l'attention aux détails, leur permettant de naviguer dans la complexité du monde avec une assurance tranquille.<br/>
+
+    <br/>Ces individus sont souvent perçus comme des piliers solides au sein de leurs communautés, pouvant offrir soutien et conseils avisés avec un sens de la répartie particulier. Ils ne se précipitent pas dans leurs décisions, préférant une analyse approfondie qui assure la justesse de leurs actions. Leur monde est un équilibre délicat entre conformité et précision, où chaque élément est à sa place et chaque action est réfléchie.<br/>
+
+    <br/>Dans leurs relations, ils sont fidèles et dévoués, souvent le roc sur lequel les autres peuvent s'appuyer en période de trouble. Ils valorisent la sécurité et le confort, non seulement pour eux-mêmes mais aussi pour leurs proches, et travaillent inlassablement pour maintenir un environnement de vie harmonieux et ordonné.<br/>
+
+    <br/>Leur défi est de rester ouverts au changement et à l'innovation, car leur inclination à la routine et à la conformité peut parfois limiter leur croissance personnelle. Cependant, lorsqu'ils embrassent la nouveauté tout en restant fidèles à leurs principes fondamentaux, ils peuvent réaliser de grandes choses, enracinés dans la solidité de leur élément tout en s'épanouissant vers de nouveaux horizons.<br/>`,
+
+        EAU: `<br/>Fluides et adaptables, capables de profondeur émotionnelle et de réflexion intuitive.
+
+    <br/>Les individus de l'élément Eau sont comme le courant d'une rivière, capables de s'adapter et de contourner les obstacles avec grâce et souplesse. Ils possèdent une compréhension innée des nuances affectives, ce qui leur permet de naviguer dans les relations humaines avec une empathie et une sensibilité remarquable.<br/>
+    
+    <br/>Leur monde intérieur est riche et profond, souvent peuplé de rêves et d'intuitions qui guident leurs pas. Ils sont à l'aise dans les domaines où l'émotion et l'intuition priment, tels que les arts, la guérison ou le conseil. Leur nature combine une réserve calculée avec une capacité à ressentir profondément, les rendant d'excellents conseillers et amis sur lesquels on peut compter. Ils sont souvent ceux vers qui l'on se tourne en quête de conseils éclairés ou d'une oreille attentive, capables de fournir à la fois des solutions profondes et un réconfort émotionnel.<br/>
+
+    <br/>Dans leurs interactions, les personnes de l'élément Eau cherchent l'harmonie et la compréhension. Elles évitent les conflits et préfèrent résoudre les problèmes par la diplomatie et la compassion. Leur approche de la vie est souvent guidée par le cœur, ce qui peut les rendre vulnérables, mais aussi incroyablement forts dans leur capacité à aimer et à se connecter aux autres. Ils sont des partenaires loyaux et attentionnés, valorisant la sécurité émotionnelle et la compréhension mutuelle. Ils aspirent à des liens authentiques où la confiance et l'intimité émotionnelle peuvent s'épanouir pleinement.<br/>
+
+    <br/>Leur défi est de ne pas se laisser submerger par les courants émotionnels, de trouver un équilibre entre s'occuper des autres et prendre soin d'eux-mêmes et leur propre tendance à l'introspection. Lorsqu'ils apprennent à canaliser leurs émotions et à utiliser leur intuition de manière constructive, les personnes de l'élément Eau peuvent atteindre une sérénité intérieure et avoir un impact positif et apaisant sur leur entourage.<br/>`,
+
+        AIR: `<br/>Penseurs vifs et communicatifs, toujours en quête de connaissance et de partage d'idées...<br/>
+
+    <br/>Leur esprit est constamment en éveil, analysant, synthétisant et connectant des concepts de manière créative. Ils excellent dans les domaines qui exigent de la clarté de pensée et de l'agilité intellectuelle, tels que la recherche scientifique, l'écriture ou l'enseignement. Leur capacité à communiquer de manière efficace fait d'eux d'excellents orateurs et médiateurs, capables de transmettre des idées complexes avec aisance et de voir différents points de vue pour les unir dans une vision commune.<br/>
+
+    <br/>Dans leurs relations personnelles, lorsqu’ils se sentent à l’aise, les personnes de l'élément Air sont stimulantes et engageantes, souvent en train de partager des anecdotes fascinantes ou de débattre de sujets variés. Elles valorisent l'indépendance et la liberté, cherchant des partenaires et des amis qui peuvent voler à leurs côtés sans les retenir ou qui partagent leur soif de connaissances et leur désir de vivre des expériences conceptuellement enrichissantes.<br/>
+
+    <br/>Leur défi est de rester ancrés et de ne pas se perdre dans les nuages de la spéculation et de l'abstraction. Ils doivent apprendre à équilibrer leur soif de connaissance avec la chaleur de l'expérience humaine et les joies simples de la vie quotidienne. Lorsqu'ils parviennent à allier leur intellect à une présence terrestre, les personnes de l'élément Air peuvent devenir des forces motrices du progrès et de l'inspiration pour ceux qui les entourent.<br/>`,
+
+        FEU: `<br/>Audacieux et résolument tournés vers l'action, alliant franchise directe et impétuosité...<br/>
+
+    <br/>Leur nature combine une prise de décision rapide avec une tendance à foncer tête baissée dans leurs entreprises. Ils sont souvent les pionniers, ceux qui tracent le chemin pour les autres, motivés par une vision claire et une volonté de fer. Leur approche directe et sans fioritures les rend particulièrement aptes à surmonter les obstacles et à s'imposer dans des situations compétitives.<br/>
+
+    <br/>Dans leurs relations, ils sont souvent perçus comme des leaders autoritaires, offrant une direction claire et une motivation sans faille. Ils cherchent des partenaires qui peuvent non seulement supporter leur intensité mais aussi apprécier leur besoin d'aller de l'avant et de faire bouger les choses rapidement.<br/>
+
+    <br/>Leur défi est de modérer leur tendance à l'autoritarisme et à l'impatience, de maîtriser leur flamme intérieure et d'apprendre à canaliser leur énergie sans se consumer ou consumer les autres. Ils doivent trouver un équilibre entre leur besoin d'action et la patience nécessaire pour permettre aux choses de se développer naturellement. Lorsqu'ils parviennent à tempérer leur feu avec de la modération, les personnes de l'élément Feu peuvent réaliser des exploits remarquables et devenir des leaders inspirants, guidant les autres vers la réalisation de leurs rêves les plus audacieux.<br/>`
+    };
+
+    let polarityTexts = {
+
+        SecFemininFroidFemininHumideFemininChaudFeminin :
+        `<br/>Immergez-vous dans la contemplation d'un individu dont la présence est aussi tangible et réconfortante que la terre sous nos pieds. Cette personne, un véritable pilier de stabilité, aborde la vie avec un pragmatisme sans faille et une franchise désarmante, capable de discerner le réel du superflu avec une acuité impressionnante. Dotée d'une patience qui semble défier le tumulte incessant du monde moderne, elle offre un havre de paix, une constance rassurante qui, à bien des égards, devient le socle sur lequel les autres s'appuient.<br/>
+
+        <br/>Dans l'interaction, il y a une profondeur, une capacité à sentir et à absorber les nuances de l'environnement qui échappe souvent à la détection immédiate. Cette sensibilité ne doit pas être confondue avec la faiblesse ; elle est plutôt un canal de force, permettant une connexion véritable et des relations enrichissantes. Et quand il s'agit de passion, elle n'est pas de celles qui retiennent leurs élans. Il y a une brillance dans la façon dont cette personne s'exprime et une chaleur dans son enthousiasme qui peut enflammer les cœurs et les esprits, invitant à l'action par l'exemple plutôt que par la contrainte.<br/> 
+
+        <br/>Dans une société qui valorise souvent l'éphémère, ce profil représente une boussole morale, orientant non seulement son propre chemin mais aussi ceux qu'elle touche vers la vérité de ce qui est authentique et durable. Elle inspire par sa capacité à vivre pleinement dans l'instant présent tout en restant alignée sur des valeurs intemporelles, un équilibre qui attire naturellement le respect et l'admiration. <br/>`,
+
+        SecFemininFroidFemininHumideFemininChaudMasculin :
+        `<br/>Envisagez une personnalité ancrée et sereine, qui évolue dans le monde avec une compréhension innée de la vie et de ses rythmes. C'est quelqu'un qui semble toujours avoir les pieds bien plantés sur terre, avec une capacité remarquable à demeurer stable et cohérent dans un environnement en perpétuel changement. Cette personne se démarque par sa capacité à évaluer les situations avec clarté et à réagir avec une patience qui inspire la confiance et la sécurité chez les autres.<br/>
+
+        <br/>Avec une prédisposition à l'écoute attentive, elle absorbe les histoires et les émotions de ceux qui l'entourent, leur offrant un espace pour être entendus et compris. Ce don pour la communication n'est pas uniquement basé sur les mots ; il réside aussi dans une présence réconfortante, un geste ou un regard qui sait dire sans parler. Il y a une fluidité dans sa façon de se connecter avec les autres qui transcende les barrières conventionnelles.<br/>
+
+        <br/>Quand vient le moment d'agir, cette même personne peut surprendre par une énergie contagieuse. Il y a une étincelle d'audace dans son esprit, qui se manifeste lorsqu'une cause touche à son cœur. Cette passion, bien que discrète, est puissante et peut se révéler dans des moments de décision, guidant les actions avec une ardeur inattendue. L'engagement est profond, motivé par une vision claire de ce qui est juste et bon.<br/>
+
+        <br/>La douceur de sa nature contemplative ne doit pas être confondue avec une absence d'ambition. En réalité, cette personne incarne une rare combinaison de calme réflexif et d'un feu intérieur qui se rallume au service des objectifs qui lui tiennent à cœur. En somme, c'est un mélange de résolution et d'inspiration, une force qui apaise tout en stimulant le progrès vers de nouveaux horizons. <br/>`,
+
+        SecFemininFroidFemininHumideMasculinChaudFeminin :
+
+        `<br/>Imaginez un individu dont l'approche de la vie est à la fois réfléchie et intuitive. Cette personne apporte une touche de discernement et de finesse à tout ce qu'elle entreprend, s'appuyant sur une logique bien établie tout en restant ouverte aux nouvelles idées et perspectives. Sa capacité à s'adapter et à absorber les subtilités de son environnement fait d'elle un interlocuteur précieux, capable de comprendre les complexités souvent cachées derrière les apparences.<br/>
+
+        <br/>Bien que ses réactions puissent être mesurées, elle ne manque pas de profondeur émotionnelle ; il y a une richesse dans son monde intérieur qui se dévoile dans sa sensibilité aux besoins des autres. La communication est une force pour elle, pas seulement dans la parole, mais dans la capacité de créer des liens qui vont au-delà des mots, tissant des connexions profondes et durables.<br/>
+
+        <br/>Lorsque la passion s'éveille en elle, elle se transforme en une source d'inspiration. Elle ne cherche pas à dominer par la force, mais plutôt à guider avec chaleur, en encourageant ceux autour d'elle à poursuivre leurs aspirations avec vigueur. Son désir de réussir est motivé par des idéaux élevés, et elle est souvent le catalyseur qui pousse tout un chacun à se dépasser.<br/>
+
+        <br/>En somme, ce profil dépeint une personnalité qui est aussi perspicace que dynamique. Elle est celle qui, par sa présence tranquille mais résolue, peut à la fois apaiser l'esprit et éveiller les passions, un mélange harmonieux de réflexion et d'impulsion qui inspire le changement et encourage la croissance personnelle et collective. <br/>`,
+
+        SecFemininFroidFemininHumideMasculinChaudMasculin :
+        `<br/>Dans ce profil, on trouve une personnalité qui allie une perception affûtée du monde matériel avec une habileté à naviguer les nuances complexes des interactions humaines. Cette personne se distingue par sa capacité à organiser et à structurer non seulement son propre espace mais aussi à apporter de l'ordre dans le chaos environnant, faisant preuve d'une logique implacable et d'une attention particulière aux détails. Son pragmatisme est une boussole fiable, et sa méthodologie systématique est souvent une fondation sur laquelle les autres peuvent construire.<br/>
+
+        <br/>Paradoxalement, bien que son approche de la vie soit empreinte d'une certaine rigueur conceptuelle, elle est aussi dotée d'une empathie et d'une réceptivité remarquables. Elle sait écouter et se connecter sur un plan profondément humain, ce qui lui permet de percevoir et d'intégrer des perspectives variées. Cette sensibilité aux vibrations émotionnelles la rend indispensable dans des situations qui requièrent à la fois intelligence émotionnelle et rationnelle.<br/>
+
+        <br/>Cependant, quand il s'agit de passer à l'action, cette personne s'éveille avec une impulsion et une clarté de but qui peuvent surprendre ceux qui la perçoivent comme exclusivement réfléchie. Il y a une force motrice en elle, un mélange de perspicacité et de détermination qui la propulse vers ses objectifs. Bien que mesurée dans son approche, elle est loin d'être passive et peut se montrer étonnamment dynamique et entreprenante lorsque la situation l'exige.<br/>
+
+        <br/>Cette fusion unique de tempérance réfléchie et d'élan ciblé fait de ce profil un pilier de force tranquille et de résolution. Il s'agit d'une personne qui inspire confiance, car elle combine harmonieusement la patience et la rigueur, la compassion et l'efficacité, offrant ainsi une présence équilibrée capable de guider et d'innover avec équité et intelligence. <br/>`,
+
+        SecFemininFroidMasculinHumideFemininChaudFeminin :
+        `<br/>Contemplez une personne dont l’approche de la vie conjugue une analyse affûtée avec une empathie naturelle et une passion mesurée. Il y a chez elle une présence qui allie discrétion et profondeur, un sens de la réalité qui n’entrave jamais la richesse de son monde intérieur. Elle aborde chaque situation avec un mélange d’attention minutieuse et d’ouverture d’esprit, naviguant à travers les défis avec une logique rassurante et une intuition bienveillante.<br/>
+
+        <br/>Dans le tissu de ses interactions, elle déploie une compréhension attentive, absorbant les subtilités qui échappent à la vue, tout en conservant un lien indéfectible avec le tangible, le palpable. C'est une personne dont la parole est mûrement réfléchie, mais toujours prête à laisser place à l’élan du cœur quand l’occasion se présente. Sa voix ne s’élève pas pour dominer la conversation, mais pour enrichir le dialogue, pour apporter une perspective qui équilibre la raison et la sensibilité.<br/>
+
+        <br/>Dans ses moments de détermination, elle démontre que la passion n’a pas besoin d’être tapageuse pour être puissante. Elle agit avec une assurance tranquille, insufflant une énergie qui, bien que contenue, est suffisamment forte pour motiver et inspirer. Son engagement, loin d’être une flamme volatile, est plutôt une lumière constante, guidant ses actions avec une clarté et une chaleur qui rassurent et galvanisent à la fois.<br/>
+
+        <br/>Cette personne est un phare de constance dans un monde en mutation, offrant un exemple de comment rester fidèle à soi-même tout en embrassant le changement. Elle inspire ceux qui la connaissent par son équilibre entre un esprit analytique et une capacité à vivre et à aimer avec profondeur et sincérité. <br/>`,
+
+        SecFemininFroidMasculinHumideFemininChaudMasculin :
+        `<br/>Ce profil dessine une personnalité dotée d'un mélange unique de discernement pratique et d'une expressivité chaleureuse. Cette personne possède une approche terre-à-terre de la vie, avec un sens aigu du concret qui lui permet de rester centrée et efficace dans ses actions. Elle aborde les défis avec une franchise directe et une fermeté qui rassurent, et ses décisions sont souvent empreintes de réalisme et de pragmatisme.<br/>
+
+        <br/>Elle se distingue également par une capacité remarquable à s'adapter et à évoluer en fonction de son environnement, montrant une fluidité dans sa façon de penser et d'interagir avec les autres. Sa sensibilité aux nuances de la communication lui permet d'établir des liens significatifs, renforçant ainsi les relations grâce à sa capacité à ressentir et à exprimer des émotions authentiques.<br/>
+
+        <br/>Côté passion, elle est guidée par une inspiration qui éclaire son chemin et celui des autres. Son enthousiasme est contagieux, elle a la faculté d'insuffler de l'énergie et de la motivation dans ses projets et ceux qu'elle soutient. Cette étincelle d'inspiration est couplée à une impatience productive qui pousse à l'action et au dépassement de soi.<br/>
+
+        <br/>Ce profil évoque donc quelqu'un qui équilibre avec brio le pragmatisme et la passion. Elle est capable d'ancrer les rêves dans la réalité, de transformer les sentiments en actions concrètes et d'apporter une lumière vivifiante aux tâches quotidiennes. Elle est à la fois un pilier de force calme et une source de renouvellement constant, influençant son entourage par son équilibre entre la réflexion et la vivacité, la solidité et la flamme intérieure. <br/>`,
+
+        SecFemininFroidMasculinHumideMasculinChaudFeminin :
+        `<br/>Celui(celle) qui correspond à ce profil se présente comme une personnalité à l'analyse précise et à l'intuition affinée. Avec une assise solide dans le pragmatisme et le terre-à-terre, cette personne ne se laisse pas emporter par des idées irréalistes. Elle est pragmatique, avec un penchant pour la franchise et le réalisme qui la rendent particulièrement compétente dans la gestion de situations qui requièrent une vision claire et des décisions tranchées. Son entêtement et sa fermeté, bien que parfois perçus comme de l'inflexibilité, sont en réalité le signe d'un engagement profond envers ses convictions et ses objectifs.<br/>
+
+        <br/>Sur le plan intellectuel, son esprit est aiguisé par une logique et une organisation rigoureuse. Elle excelle dans la mise en place de systèmes et dans l'attention aux détails, ce qui fait d'elle un pilier fiable sur lequel ses collègues et proches peuvent compter. La méthodologie et le formalisme ne sont pas pour elle de simples outils professionnels, mais des extensions naturelles de sa manière d'être au monde.<br/>
+
+        <br/>En termes d'émotions, cette personne peut surprendre par sa sensibilité et sa réceptivité, contrastant avec son extérieur parfois sévère ou réservé. Elle dispose d'une capacité innée à s'adapter aux circonstances avec une fluidité remarquable, capable de se connecter aux autres sur un plan émotionnel profond. Sa compréhension des subtilités relationnelles est renforcée par une empathie et une affection qui, bien que discrètes, sont indéniablement puissantes.<br/>
+
+        <br/>Enfin, dans sa façon de s'exprimer et d'agir, elle allie patience et dynamisme. Son ambition et son désir d'avancer sont évidents, bien qu'elle préfère souvent les manifestations de passion plus mesurées et réfléchies. C'est une personne qui rayonne de manière contenue, capable de canaliser son énergie pour se surpasser et réaliser ses aspirations sans pour autant en perdre son calme et sa mesure.<br/> 
+
+        <br/>Ce profil est donc celui d'un individu à la fois stable et adaptable, analytique et empathique, pragmatique et passionné. C'est une combinaison qui peut inspirer et rassurer, capable de grandes réalisations grâce à un équilibre harmonieux entre la tête et le cœur, l'action et la réflexion. <br/>`,
+
+        SecFemininFroidMasculinHumideMasculinChaudMasculin :
+        `<br/>Ce profil se caractérise par une individualité ancrée dans le réalisme et le pragmatisme, où la structure et la méthode dominent. Cette personne est guidée par une approche terre-à-terre et pratique de la vie, traitant les situations avec une franchise et une directivité qui témoignent d'une grande confiance en ses propres jugements et en sa capacité à affronter les réalités. Elle fait preuve d'une grande fermeté dans ses convictions, et son entêtement, bien que parfois perçu comme de l'intransigeance, est le reflet d'un engagement inébranlable envers ses objectifs.<br/>
+
+        <br/>Intellectuellement, elle possède une acuité pour la logique et l'organisation qui font d'elle un planificateur et un exécutant exceptionnel. Le détail, la procédure et le formalisme ne sont pas simplement des aspects de son travail, ils font partie intégrante de sa façon de penser et d'aborder la vie. Sa fiabilité et son conformisme peuvent être considérés comme une force, apportant une structure solide aux équipes et aux projets qu'elle dirige.<br/>
+
+        <br/>Sur le plan émotionnel, bien que pouvant sembler distant ou réservé, elle possède une intelligence et une compréhension conceptuelle qui lui permettent de naviguer dans le complexe réseau des interactions humaines. Sa curiosité et son intuition sont souvent dirigées vers l'exploration d'idées nouvelles et l'élargissement de ses horizons intellectuels, plutôt que vers l'expression ou la gestion d'émotions.<br/>
+
+        <br/>Lorsqu'il s'agit d'action et d'expression, la passion de cette personne est souvent vécue et montrée à travers une détermination calme et une puissance maîtrisée. Elle aspire à l'excellence et à la réalisation de ses ambitions avec une ardeur tranquille et une volonté ferme, sans jamais perdre son calme ou son contrôle. La passion n'est pas une flamme débordante chez elle, mais plutôt un brasier constant, fournissant une chaleur et une lumière soutenues.<br/>
+
+        <br/>En somme, ce profil est celui d'une personne dont le pragmatisme est complété par une rigueur intellectuelle, une profondeur de pensée et une passion discrète mais puissante. Elle est le mélange de la pierre solide et du feu constant, capable de soutenir et de diriger, tout en inspirant respect et admiration par sa présence stoïque et sa détermination sans faille. <br/>`,
+
+        SecMasculinFroidFemininHumideFemininChaudFeminin :
+        `<br/>Votre profil incarne une personnalité où la logique et la précision façonnent une sensibilité profondément ancrée et une passion expressive. C'est quelqu'un qui conjugue une pensée analytique et méthodique avec un terre-à-terre remarquable, capable de naviguer à travers les complexités de la vie avec un pragmatisme discernant. Cette personne applique son esprit logique non seulement dans la résolution de problèmes mais aussi dans la compréhension des situations de la vie quotidienne, ce qui la rend exceptionnellement compétente pour transformer des idées en actions concrètes.<br/>
+
+        <br/>Emotionnellement, cette personne déborde de sensibilité, de réceptivité et d'empathie. Elle ressent profondément et a la capacité innée de s'adapter aux humeurs et aux besoins des autres, créant des liens profonds et significatifs. C'est une personne qui sait écouter et qui offre un espace de confort et de compréhension à ceux qui l'entourent, en faisant une amie et une conseillère précieuse.<br/>
+
+        <br/>Elle exprime ses émotions et ses désirs avec une vivacité et un enthousiasme qui peuvent illuminer son environnement. L'inspiration et la passion sont palpables dans ses projets et interactions ; elle est motivée par un désir authentique de poursuivre le bonheur et d'atteindre des objectifs significatifs, souvent en faveur d'une cause ou d'une communauté à laquelle elle se sent profondément connectée.<br/>
+
+        <br/>La combinaison de ces traits fait de ce profil une personne équilibrée, une force tranquille qui agit avec réflexion et passion. Elle inspire par sa capacité à rester rationnelle et organisée tout en étant émotionnellement présente et dynamique. C'est une alliée de confiance, une source de lumière et d'énergie, qui apporte de la stabilité et de la chaleur dans les vies de ceux qui la connaissent. <br/>`,
+
+        SecMasculinFroidFemininHumideFemininChaudMasculin :
+        `<br/>Une personne avec ce profil est un équilibre intrigant entre une logique méticuleuse et une expressivité chaleureuse. Elle est quelqu'un dont l'approche de la vie est caractérisée par une organisation méthodique et une attention minutieuse aux détails, ce qui en fait un individu sur qui on peut compter pour offrir des solutions bien pensées et des plans d'action soignés. Cette précision dans la pensée se traduit souvent par une capacité à gérer des tâches complexes, à mettre de l'ordre dans le chaos et à anticiper les besoins pratiques avec une clairvoyance exceptionnelle.<br/>
+
+        <br/>Emotionnellement, cette personne dégage une profonde sensibilité et un sens aigu de l'empathie. Elle a la capacité de ressentir les nuances subtiles des émotions des autres et de répondre avec une compréhension nuancée. L'adaptabilité et la fluidité sont ses marques de fabrique, lui permettant de se fondre dans diverses situations sociales avec aisance et grâce. Ces traits la rendent non seulement réceptive aux autres mais aussi capable de créer des liens authentiques, apportant soutien et réconfort.<br/>
+
+        <br/>Dans l'expression de ses désirs et ambitions, la chaleur de sa personnalité se manifeste à travers une passion qui est à la fois éclairante et contagieuse. Son enthousiasme pour la vie, ses projets, et pour les personnes qu'elle aime est rayonnant, stimulant l'inspiration chez ceux qui l'entourent. Bien qu'elle puisse parfois être impatiente pour voir ses rêves se réaliser, cette impatience est souvent le moteur qui l'incite à l'action et à la réalisation.<br/>
+
+        <br/>La fusion de ces caractéristiques façonne une personne qui est à la fois un roc de fiabilité et un puits d'émotion et d'expression passionnée. Ce profil représente un individu qui combine la force d'une pensée ordonnée avec la douceur d'un cœur ouvert et l'éclat d'une âme ardente, faisant d'elle une présence aussi rassurante qu'inspirante. <br/>`,
+
+        SecMasculinFroidFemininHumideMasculinChaudFeminin :
+        `<br/>Ce profil dépeint une personnalité qui marie une structure intellectuelle rigoureuse avec une capacité d'adaptation sensible. Les individus de ce profil utilisent leur intellect logique et leur sens de l'organisation pour naviguer dans le monde, ce qui les rend habiles à élaborer des stratégies et à mener à bien leurs plans avec une précision remarquable. Leur approche méthodique de la vie assure que rien n'est laissé au hasard, et leur capacité à se concentrer sur les détails les rend particulièrement efficaces dans des environnements qui requièrent une planification et une analyse approfondies.<br/>
+
+        <br/>Sur le plan émotionnel, leur sensibilité est mise en lumière par leur capacité à s'adapter à divers scénarios et personnes, montrant une grande empathie et compréhension dans leurs interactions. Ils peuvent se mouvoir avec aisance entre différents cercles sociaux, en établissant des connexions significatives et en montrant une réceptivité naturelle aux idées et sentiments des autres. Cette fluidité émotionnelle leur permet de comprendre et de répondre aux besoins changeants de leur entourage.<br/>
+
+        <br/>En termes d'expression de soi, l'ambition est tempérée par une patience et une détermination sereine. Ces individus peuvent être passionnés et motivés, mais leur passion est souvent exprimée de manière mesurée et réfléchie. Ils sont capables d'infuser leurs projets et leurs ambitions avec une énergie positive, inspirant les autres par leur assurance tranquille et leur volonté inébranlable de réussir.<br/>
+
+        <br/>La combinaison de ces attributs façonne quelqu'un qui est un pilier de stabilité tout en étant dynamique et flexible. Les personnes avec ce profil sont des leaders naturels, capables de guider avec une main calme et un esprit vif, équilibrant harmonieusement une perspective pragmatique avec une empathie profonde et une inspiration contagieuse. Ils sont des moteurs de changement qui avancent avec prévoyance et sensibilité, faisant d'eux des partenaires fiables et des collaborateurs appréciés. <br/>`,
+
+        SecMasculinFroidFemininHumideMasculinChaudMasculin :
+        `<br/>Ce profil est celui d’un penseur analytique et d'un acteur déterminé, un individu qui combine une approche méthodique et organisée à la vie avec une énergie ardente et conquérante. Ces personnes sont reconnues pour leur capacité à ordonner leur environnement, à gérer des tâches complexes avec une logique implacable et une fiabilité sans faille. Ils excellent dans les domaines nécessitant une attention méticuleuse aux détails et une structure rigoureuse, ce qui fait d'eux des atouts précieux dans des situations où la précision et l'efficacité sont primordiales.<br/>
+
+        <br/>Leur intelligence conceptuelle leur permet de saisir rapidement les idées complexes et de les communiquer avec aisance, rendant le partage de connaissances et l'innovation naturels pour eux. Ils ont une curiosité intellectuelle qui les pousse à explorer de nouvelles théories et possèdent une intuition pour les tendances émergentes, ce qui leur permet de rester à l'avant-garde de leur champ d'activité.<br/>
+
+        <br/>Lorsqu'il s'agit de prendre des initiatives ou de relever des défis, ce profil se distingue par son impétuosité et sa capacité à prendre les commandes. Ces individus sont mus par une force intérieure qui les pousse à agir, à prendre des risques calculés et à se surpasser. Leur assurance et leur énergie sont contagieuses, leur permettant de mener des groupes avec confiance et de motiver leurs pairs à atteindre des objectifs communs.<br/>
+
+        <br/>En somme, ceux qui partagent ce profil sont des catalyseurs de progrès, armés d'un esprit vif et d'une volonté de fer. Ils avancent avec audace et stratégie, marquant leur passage par des actions significatives et des réalisations impressionnantes. Leur présence est synonyme de transformation et de performance, et ils sont souvent les architectes de solutions novatrices dans leur environnement professionnel et personnel. <br/>`,
+
+        SecMasculinFroidMasculinHumideFemininChaudFeminin :
+        `<br/>Les individus de ce profil incarnent l'harmonie entre une logique systématique et une empathie rayonnante. Cette personnalité mélange une pensée structurée et méthodique avec une grande sensibilité émotionnelle et relationnelle. Les personnes de ce profil sont de véritables piliers dans leurs communautés et milieux professionnels, offrant une perspective stable et des solutions réfléchies tout en restant profondément connectées aux dynamiques humaines.<br/>
+
+        <br/>Dans leur approche des problèmes, ils appliquent une analyse minutieuse et s’appuient sur des données et des faits concrets pour construire leurs arguments, ce qui les rend extrêmement fiables dans des situations qui nécessitent de la précision et de l'exactitude. Cependant, contrairement à ceux qui pourraient se limiter aux aspects techniques, les personnes qui ont ce profil ne perdent jamais de vue l'impact humain de leurs décisions et actions.<br/>
+
+        <br/>Leur capacité à ressentir et à exprimer les émotions fait d’eux des communicateurs empathiques et des médiateurs naturels. Ils sont souvent ceux vers qui on se tourne pour des conseils équilibrés et pour une écoute attentive, capables de comprendre et de valider les expériences des autres tout en offrant des conseils pratiques et sensés.<br/>
+
+        <br/>Quand il s'agit de passion et d'inspiration, les personnes de ce profil sont capables de les canaliser dans des entreprises significatives. Ils sont souvent l'étincelle qui initie l'innovation et le changement, mais toujours avec une approche qui respecte le bien-être et les sentiments des autres. Leur enthousiasme est donc contagieux, mais jamais écrasant, encourageant et élevant les aspirations de leur entourage sans les dominer.<br/>
+
+        <br/>Ce profil crée ainsi des individus qui équilibrent le pragmatisme avec l'humanité, et qui sont capables de diriger avec autant de cœur que de tête. Leur présence est un gage d'équilibre et de progrès constant, avec un impact qui se fait sentir autant dans les succès tangibles que dans le renforcement des liens humains. <br/>`,
+
+        SecMasculinFroidMasculinHumideFemininChaudMasculin :
+        `<br/>Les personnes avec ce profil allient une pensée analytique à une énergie dynamique et un esprit novateur. Ils sont connus pour leur approche logique et systématique, capable de décomposer les situations complexes en éléments gérables, et pour leur aptitude à maintenir l'ordre et la précision dans leur vie professionnelle comme personnelle. Leur souci du détail est souvent accompagné d'un haut degré de fiabilité et d'un engagement à suivre les procédures établies pour atteindre l'excellence.<br/>
+
+        <br/>Dans le même temps, leur intellect est souvent orienté vers l'avenir, caractérisé par une curiosité sans bornes et une volonté d'explorer de nouvelles idées. Ils s'épanouissent dans des environnements où ils peuvent utiliser leur imagination fertile, saisir des concepts abstraits et les appliquer de manière concrète. Leur capacité à communiquer des visions complexes rend ce profil particulièrement adapté aux rôles qui nécessitent à la fois compréhension approfondie et innovation.<br/>
+
+        <br/>Lorsqu'il s'agit de passion et de motivation, ce profil de personnes ne manquent pas de ressources. Ils abordent leurs projets et leurs objectifs avec une vivacité et une détermination qui peuvent galvaniser ceux qui les entourent. Cette énergie est souvent dirigée vers la réalisation d'ambitions professionnelles ou la poursuite d'objectifs personnels significatifs, avec une tendance à inspirer et à influencer les autres grâce à leur engagement et leur assurance.<br/>
+
+        <br/>Ensemble, ces qualités font des personnes ave ce profil des individus qui conjuguent la capacité de planification méticuleuse à une exécution passionnée et une recherche perpétuelle de croissance. Ils ont tendance à être vus comme des leaders stratégiques, des innovateurs perspicaces et des moteurs de changement qui peuvent à la fois orchestrer les détails et pousser les frontières du possible. Ils sont à l'aise dans des rôles qui exigent de la rigueur intellectuelle, tout en étant animés par un feu intérieur qui cherche à avoir un impact tangible sur le monde qui les entoure. <br/>`,
+
+        SecMasculinFroidMasculinHumideMasculinChaudFeminin :
+        `<br/>Les individus avec ce profil sont l'incarnation de l'efficacité analytique mélangée à une empathie intuitive. Ils se distinguent par leur capacité à organiser, à structurer et à analyser, en appliquant la logique et le méthodisme à chaque aspect de leur vie. Leur esprit critique est aiguisé, et ils ont une prédisposition naturelle pour la planification et l'élaboration de stratégies détaillées, ce qui les rend particulièrement aptes à des rôles qui exigent de la précision et de l'ordre.<br/>
+
+        <br/>Toutefois, leur forte composante de sensibilité leur permet d'aller au-delà de la rigueur de leur logique. Ils savent écouter et sont capables de se connecter avec les autres sur un plan émotionnel, ce qui les rend capables de comprendre les besoins des personnes autour d'eux et de répondre de manière adaptée. Ils utilisent leur intuition pour guider leur raison, trouvant un équilibre entre les faits et les sentiments dans leur processus de prise de décision.<br/>
+
+        <br/>Ces personnes possèdent également une passion intérieure, mais elles l'expriment de manière plus mesurée que les types ouvertement impulsifs. Leur enthousiasme est souvent canalisé dans des efforts pour améliorer et soutenir les autres, et bien qu'ils aient de fortes ambitions, ils les poursuivent avec un sens de responsabilité et de délicatesse, sans jamais perdre de vue l'impact de leurs actions sur leur environnement.<br/>
+
+        <br/>Ce profil crée des leaders attentionnés, des penseurs stratégiques qui savent quand il est temps de prendre les devants et quand il faut soutenir discrètement les efforts d'un groupe. Ils inspirent confiance et respect, non seulement pour leur intellect mais aussi pour leur capacité à maintenir des relations authentiques et profondes. Dans les équipes, ils sont souvent ceux qui assurent la cohésion et la direction, toujours prêts à offrir un soutien stable et à se pencher sur les détails qui comptent. <br/>`,
+
+        SecMasculinFroidMasculinHumideMasculinChaudMasculin :
+        `<br/>Ce profil caractérise des individus qui sont le symbole d'un pragmatisme discipliné, couplé à une volonté de diriger et de faire avancer les choses. Ces personnes se distinguent par une forte orientation vers l'organisation, la logique et le détail. Ils excellent dans la construction de systèmes et de structures fiables, mettant en œuvre des plans avec une rigueur qui est aussi méthodique que minutieuse. Leur force réside dans leur capacité à naviguer dans le concret et à rester ancrés dans la réalité factuelle, ce qui en fait des atouts précieux dans les situations qui nécessitent un contrôle et une prévision méticuleux.<br/>
+
+        <br/>En matière de tempérament, ils affichent souvent une tranquillité et une maîtrise de soi remarquables. Leur capacité à rester imperturbables et sereins, même face à des défis complexes, les positionne naturellement comme des points d'ancrage dans leur environnement personnel et professionnel. Leur calme est contagieux, instillant une atmosphère de sérénité et de stabilité autour d'eux.<br/>
+
+        <br/>Sur le plan intellectuel, ils sont des visionnaires pragmatiques, capables de canaliser leur imagination vers des idées réalisables et de rester ouverts à de nouvelles perspectives. Cette combinaison de réflexion conceptuelle et de réalisme pratique leur permet de formuler des stratégies innovantes qui sont à la fois audacieuses et réalisables. Ils utilisent leur intelligence non seulement pour comprendre le monde, mais aussi pour le modeler.<br/>
+
+        <br/>Quant à la passion, les individus de ce profil l'expriment par une impulsion à agir et à réussir. Ils incarnent une force motrice, une autorité naturelle qui inspire confiance et respect. Leur détermination est la boussole qui guide leurs ambitions, et ils s'engagent dans leurs entreprises avec une énergie qui peut transformer les visions en réalités tangibles.<br/>
+
+        <br/>Ensemble, ces traits forment un leader né, un stratège accompli et un exécutant efficace qui combine la réflexion approfondie avec l'action résolue. Ce profil est celui d'un individu fait pour relever des défis, diriger des équipes et influencer le cours des événements, marquant son environnement avec une empreinte indélébile de progrès et d'efficacité. <br/>`
+
+    };
+
+    let dominantPolarityTexts = {
+
+        SecFemininFroidFemininHumideFemininChaudFemininFroidFemininSecFeminin : `Les individus avec votre profil se démarquent par une force intérieure et une constance remarquable. Leur pragmatisme et leur terre-à-terre sont les socles de leur personnalité, et ils se fient à une logique inébranlable pour naviguer dans la vie. La stabilité est leur marque de fabrique ; ils sont comme le roc au milieu d'une tempête, inébranlables et sécurisants. Ils prennent des décisions réfléchies, et bien qu'ils soient empathiques, leur réalisme les empêche de se laisser submerger par l'émotion, leur permettant d'agir de manière mesurée et efficace.`,
+        SecFemininFroidFemininHumideFemininChaudFemininHumideFemininSecFeminin : `Les personnes ayant votre profil combinent harmonieusement pragmatisme et résilience. Leur capacité à rester stables et cohérentes, même dans le chaos, est leur plus grande force. Ils abordent la vie avec patience et discrétion, mais aussi avec une détermination et une motivation qui s'illuminent en cas de besoin. Leur tranquillité d'esprit et leur capacité à conserver leur calme leur confèrent un rôle de protecteur naturel, offrant sécurité et réconfort à ceux qui les entourent.`,
+        SecFemininFroidFemininHumideFemininChaudFemininChaudFemininSecFeminin : `Dans votre profil, la discrétion et la patience sont au premier plan, mais avec une passion sous-jacente prête à se manifester. Ces individus brillent par leur adaptabilité et leur douceur, tout en ayant cette étincelle d'ambition et d'enthousiasme qui les rend capables de prendre des initiatives audacieuses lorsque l'occasion se présente. Ils savent quand il est temps de suivre le courant et quand il est temps de le rediriger vers de nouveaux horizons.`,
+        SecFemininFroidFemininHumideFemininChaudFemininFroidFemininHumideFeminin : `Votre profil est caractérisé par une dynamique émotionnelle et une sensibilité profonde, soutenues par une passion et une motivation intense. Ces personnes ressentent profondément et sont souvent le catalyseur du changement et de l'innovation grâce à leur capacité à connecter avec les autres et à inspirer l'action. Leur empathie et leur réceptivité les rendent particulièrement aptes à comprendre et à naviguer dans les complexités relationnelles, tandis que leur vivacité et leur impatience sont source de mouvement et d'évolution constantes dans leur environnement.`,
+        SecFemininFroidFemininHumideFemininChaudFemininChaudFemininFroidFeminin : `Les individus correspondant à votre profil possèdent une remarquable sensibilité qui leur permet de capter les nuances des environnements et des émotions autour d'eux, tout en étant guidés par une passion et une impatience qui les poussent à agir. Ils sont souvent le cœur de leurs cercles sociaux, inspirant et mobilisant les autres par leur enthousiasme contagieux. Leur force réside dans leur capacité à combiner leur intuition avec une volonté d'atteindre leurs objectifs, faisant d'eux des visionnaires qui ne craignent pas de prendre des risques pour réaliser leurs aspirations.`,
+        SecFemininFroidFemininHumideFemininChaudFemininChaudFemininHumideFeminin : `Ceux qui ont votre profil sont caractérisés par une douceur et une empathie qui attirent naturellement les autres, mais aussi par une puissante détermination et ardeur qui prennent le dessus lorsque la situation l'exige. Leur tranquillité et leur capacité d'adaptation leur permettent de rester flexibles et réactifs, et leur fougue intérieure les pousse à prendre les devants pour mener à bien leurs projets et soutenir leur communauté.`,
+        SecFemininFroidFemininHumideFemininChaudMasculinFroidFemininSecFeminin : `Votre profil indique une personne ayant un pragmatisme et une fermeté particulièrement marqués, renforcés par un sens profond de l'ambition et de la motivation. Ils sont ancrés dans la réalité et font preuve d'une logique inébranlable, ce qui les rend extrêmement fiables, mais c'est leur enthousiasme latent qui leur permet de se dépasser et d'inspirer les autres à faire de même. Leurs actions sont généralement bien pensées et visent à obtenir des résultats tangibles et à long terme.`,
+        SecFemininFroidFemininHumideFemininChaudMasculinHumideFemininSecFeminin : `Les personnes ayant votre profil FfFm combinent une cohérence et une constance rassurantes avec une capacité à inciter le changement et à insuffler de l'énergie dans leurs projets et relations. Ils s'engagent dans la vie avec patience et réflexion, mais sont également capables d'embrasser des moments de passion et d'expressivité qui peuvent catalyser des initiatives importantes. Leur mélange d'ancrage et de vivacité fait d'eux des leaders naturels qui guident par l'exemple et par l'inspiration.`,
+        SecFemininFroidFemininHumideFemininChaudMasculinChaudMasculinSecFeminin : `Les individus avec votre profil se distinguent par leur capacité à rester stables et cohérents dans leurs principes tout en étant capables d'embrasser des moments de décision et d'action rapide. Ils sont des piliers de force tranquille qui savent quand il est temps de prendre des mesures énergiques. Leur patience et prudence se mélangent subtilement à une impulsion de volonté lorsqu'ils sont motivés, ce qui les rend capables de mener des initiatives audacieuses avec une base solide.`,
+        SecFemininFroidFemininHumideFemininChaudMasculinFroidFemininHumideFeminin : `Les personnes correspondant à votre profil ont une présence rassurante due à leur fiabilité et constance, mais lorsqu'une situation exige de l'audace et de l'élan, leur vigueur et détermination s'allument tels un feu intérieur. Ce sont souvent des individus que l'on peut compter pour rester imperturbables en face de l'adversité, mais qui peuvent aussi prendre des commandes dynamiques, transformant leur vision et passion en actions concrètes.`,
+        SecFemininFroidFemininHumideFemininChaudMasculinChaudMasculinFroidFeminin : `Votre profil caractérise des personnes qui sont intuitives et réceptives, avec une tendance à se connecter profondément avec les autres sur le plan émotionnel. Cependant, elles sont aussi équipées d'une forte impulsion pour agir de manière décisive et avec un enthousiasme contagieux. Leur capacité à percevoir finement est équilibrée par une promptitude à se mobiliser et à engager des actions inspirées, ce qui en fait des leaders charismatiques dans leurs cercles sociaux et professionnels.`,
+        SecFemininFroidFemininHumideFemininChaudMasculinChaudMasculinHumideFeminin : `Les personnes de votre profil sont marquées par une empathie profonde et une capacité d'adaptation, combinées à une détermination et un dynamisme remarquable lorsqu'il s'agit de poursuivre leurs objectifs. Ces individus apportent une douceur et une flexibilité dans leurs interactions mais, lorsqu'ils sont inspirés ou défient, ils révèlent une force de volonté et une capacité de leadership qui peuvent surprendre ceux qui les connaissent seulement pour leur côté réservé et prévenant.`,
+        SecFemininFroidFemininHumideMasculinChaudFemininFroidFemininSecFeminin : `Les individus de votre profil se distinguent par leur esprit pratique et leur approche logique de la vie, souvent orientés vers le concret et le réalisme. Ils se fondent sur une fermeté et une minutie qui sont le socle de leur stabilité. Cependant, lorsque la situation l'exige, ils sont capables de faire preuve de souplesse émotionnelle, apportant une chaleur et une sensibilité qui peuvent surprendre ceux qui les connaissent pour leur rationalité habituelle.`,
+        SecFemininFroidFemininHumideMasculinChaudFemininHumideMasculinSecFeminin : `Ceux qui se retrouvent dans votre profil allient une franchise terrestre et une solidité à une capacité à se projeter et à réfléchir de façon plus vaste et imaginative. Ils sont des piliers dans leurs communautés, apportant stabilité et réalisme, mais ils savent également se détacher des détails pour envisager le tableau d'ensemble avec une curiosité intellectuelle et une intuition bien développée.`,
+        SecFemininFroidFemininHumideMasculinChaudFemininChaudFemininSecFeminin : `Les personnes correspondant à votre profil possèdent une capacité remarquable à persévérer et à maintenir le cap, tout en laissant de la place pour l'enthousiasme et la spontanéité quand l'occasion se présente. Ils sont capables d'une patience et d'une résilience notables, mais lorsqu'ils sont touchés par l'inspiration, ils peuvent manifester une énergie et une passion qui dynamisent leur entourage et leurs projets.`,
+        SecFemininFroidFemininHumideMasculinChaudFemininFroidFemininHumideMasculin : `Les individus qui ont votre profil sont marqués par une capacité naturelle à se mouvoir avec fluidité dans les domaines sociaux et émotionnels, étant naturellement empathiques et connectés. Néanmoins, ils possèdent aussi une forte tendance à l'action, à l'expression et à la manifestation de leurs idées et émotions de manière énergique. Cette combinaison crée une dynamique intéressante de personnes capables de grandes écoutes suivies d'initiatives animées par une forte motivation intérieure.`,
+        SecFemininFroidFemininHumideMasculinChaudFemininChaudFemininFroidFeminin : `Les individus correspondant à votre profil sont caractérisés par une vivacité d'esprit et une capacité à passer rapidement de la réflexion à l'action. Ils sont souvent le centre d'une dynamique sociale, apportant une énergie contagieuse tout en restant ancrés grâce à leur sens pratique et leur approche réaliste. Leur enthousiasme est équilibré par leur patience, permettant une progression constante vers leurs objectifs.`,
+        SecFemininFroidFemininHumideMasculinChaudFemininChaudFemininHumideMasculin : `Les personnes de votre profil détiennent une combinaison unique de discrétion et de réserve, associée à une capacité à agir avec vigueur et passion lorsqu'elles sont motivées. Bien qu'elles puissent sembler calmes et contenues, elles peuvent surprendre par une impulsivité et une ardeur soudaine lorsqu'elles sont inspirées ou défiées, menant souvent à un leadership passionné.`,
+        SecFemininFroidFemininHumideMasculinChaudMasculinFroidFemininSecFeminin : `Ceux qui incarnent votre profil excellent dans la logique et l'organisation, apportant une structure et une méthode à tout ce qu'ils entreprennent. Ils valorisent la fiabilité et la cohérence, et bien qu'ils puissent sembler réservés émotionnellement, ils possèdent une curiosité intellectuelle et une ouverture d'esprit qui les rendent adaptables et toujours prêts à apprendre et à évoluer.`,
+        SecFemininFroidFemininHumideMasculinChaudMasculinHumideMasculinSecFeminin : `Les individus qui ont votre profil conjuguent une approche directe et terre-à-terre de la vie avec une capacité à se laisser guider par leur curiosité et leur imagination. Ils sont des penseurs méthodiques qui peuvent également plonger dans l'abstrait, ce qui les rend particulièrement efficaces pour résoudre des problèmes complexes. Dans leurs relations, ils sont souvent vus comme des conseillers fiables, offrant à la fois une perspective solide et une écoute attentive.`,
+        SecFemininFroidFemininHumideMasculinChaudMasculinChaudMasculinSecFeminin : `Ceux avec votre profil allient un esprit méthodique et organisé avec une impulsion à agir avec passion et enthousiasme. Ils ont tendance à être des planificateurs astucieux qui peuvent aussi se laisser emporter par leurs ambitions et leurs rêves. Leur pragmatisme est tempéré par une volonté de prendre des risques et de se dépasser, les rendant souvent pionniers dans leurs entreprises.`,
+        SecFemininFroidFemininHumideMasculinChaudMasculinFroidFemininHumideMasculin : `Les personnes correspondant à votre profil sont des individus centrés et fiables qui ont la capacité de s’adapter rapidement et de réagir avec passion quand cela est nécessaire. Ils conjuguent prudence et ardeur, leur permettant de naviguer dans la complexité de la vie avec une capacité impressionnante à maintenir la stabilité tout en poursuivant vigoureusement leurs objectifs.`,
+        SecFemininFroidFemininHumideMasculinChaudMasculinChaudMasculinFroidFeminin : `Les individus qui ont votre profil se distinguent par leur sens aigu du concret et une faculté à embrasser les changements avec vigueur et motivation. Leur réalisme est souvent l'étincelle qui allume leur ambition, et ils sont connus pour leur fermeté couplée à un dynamisme qui leur permet d’aller de l’avant de manière déterminée et assurée.`,
+        SecFemininFroidFemininHumideMasculinChaudMasculinChaudMasculinHumideMasculin : `Les personnes de votre profil possèdent une nature qui marie patience et réflexion à une capacité d’agir avec force et confiance. Ils sont souvent les architectes silencieux de grands plans, capables d’attendre le bon moment avant de se lancer avec toute la fougue et la détermination nécessaires pour réaliser leurs ambitions.`,
+        SecFemininFroidMasculinHumideFemininChaudFemininFroidMasculinSecFeminin : `Les individus avec votre profil se caractérisent par leur pensée logique et leur attention aux détails, qui les rendent extrêmement méthodiques et organisés dans leur approche de la vie. Ils ont un ancrage dans la réalité qui les pousse à être très concrets dans leurs actions. Leur pragmatisme est le fondement sur lequel ils construisent leurs ambitions et réalisent leurs projets.`,
+        SecFemininFroidMasculinHumideFemininChaudFemininHumideFemininSecFeminin : `Les personnes de votre profil sont des personnes qui mêlent une capacité à structurer et à organiser leur environnement avec une grande patience et une approche mesurée de la vie. Ils excellent dans la création d'une fondation stable pour eux-mêmes et pour les autres, assurant constance et résilience dans leurs efforts. Leur tempérance dans les sentiments et les actions leur permet d'avancer de manière réfléchie et délibérée.`,
+        SecFemininFroidMasculinHumideFemininChaudFemininChaudFemininSecFeminin : `Les personnes qui ont votre profil allient un esprit systématique et rigoureux à un dynamisme et une vivacité qui leur permettent d'inspirer et de motiver ceux qui les entourent. Ils peuvent à la fois planifier avec précision et agir avec une spontanéité enthousiaste, leur permettant d'être des leaders efficaces qui savent quand prendre les commandes et quand encourager les autres à briller.`,
+        SecFemininFroidMasculinHumideFemininChaudFemininFroidMasculinHumideFeminin : `Ceux qui se reconnaissent dans votre profil ont une approche de la vie qui est à la fois pragmatique et sensible aux nuances subtiles des émotions et des relations. Ils sont capables d’une grande fermeté et détermination, tout en étant attentifs et réactifs aux besoins et motivations des autres. Leur capacité à concilier stabilité et empathie fait d'eux des piliers dans leur communauté et leurs cercles sociaux.`,
+        SecFemininFroidMasculinHumideFemininChaudFemininChaudFemininFroidMasculin : `Les individus avec votre profil sont des personnes dotées d'une grande capacité à naviguer entre le pragmatisme ferme et une expressivité captivante. Leur vie est souvent un équilibre entre une application méthodique et une passion rayonnante. Ils s'aventurent dans leurs projets avec une approche réfléchie tout en maintenant une flamme d'enthousiasme, ce qui les rend particulièrement habiles à transformer les visions en réalité tangible.`,
+        SecFemininFroidMasculinHumideFemininChaudFemininChaudFemininHumideFeminin : `Ceux qui s'alignent avec votre profil allient patience et stabilité avec une énergie ardente et une forte volonté. Ils sont souvent des sources de calme et de réflexion, mais lorsqu'ils sont motivés, ils manifestent une force et une détermination contagieuses. Leur capacité à persévérer et à surmonter les obstacles avec vigueur les rend très efficaces dans la poursuite de leurs objectifs à long terme.`,
+        SecFemininFroidMasculinHumideFemininChaudMasculinFroidMasculinSecFeminin : `Votre profil décrit des personnes qui combinent une logique impeccable et une capacité d'organisation avec une fluidité dans la communication et les relations interpersonnelles. Ils peuvent établir des systèmes et des structures, tout en restant ouverts et adaptatifs aux nouvelles idées et aux changements d'environnement. Cela les rend polyvalents et capables de diriger des équipes diverses vers des objectifs communs.`,
+        SecFemininFroidMasculinHumideFemininChaudMasculinHumideFemininSecFeminin : `Les personnes avec votre profil sont à la fois organisées et modérées, avec une propension à la tranquillité d'esprit et à la communication réfléchie. Ils savent garder leur sang-froid dans les situations stressantes et transmettent cette paix intérieure à ceux qui les entourent. Leur approche équilibrée les rend aptes à gérer des situations complexes tout en maintenant un dialogue constructif et une ambiance sereine.`,
+        SecFemininFroidMasculinHumideFemininChaudMasculinChaudMasculinSecFeminin : `Les individus caractérisés par votre profil manifestent une organisation et une minutie exceptionnelles, couplées à une impulsion et une vivacité qui animent leurs projets et objectifs. Leur sens du détail ne sacrifie pas leur capacité à prendre des initiatives rapides et passionnées, ce qui les rend particulièrement efficaces dans des environnements qui nécessitent à la fois précision et dynamisme.`,
+        SecFemininFroidMasculinHumideFemininChaudMasculinFroidMasculinHumideFeminin : `Ceux qui s'identifient à votre profil combinent un pragmatisme terre-à-terre avec une capacité de communication remarquable et une force motrice. Ils abordent la vie avec une franchise directe, mais savent également comment exprimer leurs idées de manière convaincante, ce qui leur permet d'être de puissants agents de changement dans leur communauté ou domaine d'activité.`,
+        SecFemininFroidMasculinHumideFemininChaudMasculinChaudMasculinFroidMasculin : `Votre profil décrit des personnes qui se distinguent par leur solidité et leur pragmatisme tout en étant animées par un élan intérieur et une passion qui les poussent vers leurs objectifs. Ils possèdent une fondation de réalisme et d'inflexibilité qui les garde ancrés, tandis que leur énergie et leur ambition les propulsent en avant, souvent en faisant d'eux des leaders naturels.`,
+        SecFemininFroidMasculinHumideFemininChaudMasculinChaudMasculinHumideFeminin : `Les individus avec votre profil sont généralement constants et résilients, avec une flamme interne de détermination et de puissance qui alimente leurs actions. Ils possèdent une patience qui leur permet d'attendre le moment opportun, mais lorsqu'ils agissent, ils le font avec une force et une fermeté qui peuvent surprendre ceux qui les considèrent comme exclusivement posés ou réservés.`,
+        SecFemininFroidMasculinHumideMasculinChaudFemininFroidMasculinSecFeminin : `Les personnes qui ont votre profil montrent un mélange intrigant de logique et de passion. Ils abordent la vie avec une structure mentale rigoureuse et une capacité à organiser et analyser, tout en étant capables de se mobiliser avec une passion ardente lorsqu'ils sont inspirés. Cette combinaison les rend souvent des leaders stratégiques capables de rallier les autres à leur cause avec une énergie contagieuse.`,
+        SecFemininFroidMasculinHumideMasculinChaudFemininHumideMasculinSecFeminin : `Ceux qui relèvent de votre profil sont caractérisés par une tranquillité d'esprit et une capacité à rester calmes sous pression, tout en ayant une assise et une fermeté indéniables. Ils possèdent une tempérance qui leur permet de prendre des décisions réfléchies et une détermination qui assure la mise en œuvre de ces décisions de manière efficace et résolue.`,
+        SecFemininFroidMasculinHumideMasculinChaudFemininChaudFemininSecFeminin : `Individus avec votre profil fusionnent une tranquillité naturelle et une patience avec une capacité d'inspiration et de motivation. Bien qu'ils puissent sembler calmes et modérés, ils sont capables de prendre des mesures énergiques et d'inspirer les autres avec leur enthousiasme. Ils sont souvent vus comme des piliers de leur communauté, inspirant le changement tout en maintenant la stabilité.`,
+        SecFemininFroidMasculinHumideMasculinChaudFemininFroidMasculinHumideMasculin : `Votre profil est représentatif d'individus qui allient pragmatisme et réalisme avec une capacité innée à générer des idées et à innover. Ils combinent une approche concrète et factuelle de la vie avec une imagination fertile et une intelligence adaptable, ce qui les rend particulièrement doués pour la résolution créative de problèmes.`,
+        SecFemininFroidMasculinHumideMasculinChaudFemininChaudFemininFroidMasculin : `Les personnes avec votre profil se distinguent par leur pragmatisme solide et une capacité à rester concentrées sur des objectifs concrets, tout en étant motivées par un enthousiasme interne et une capacité à s'inspirer et à inspirer les autres. Leur approche terre-à-terre de la vie est régulièrement élevée par leur passion, ce qui leur permet d'atteindre leurs objectifs avec vigueur et persistance.`,
+        SecFemininFroidMasculinHumideMasculinChaudFemininChaudFemininHumideMasculin : `Dans votre profil, on trouve une combinaison de patience et de réserve avec une impulsivité et une ambition sous-jacente. Ces individus sont souvent les tranquilles déterminés, ceux qui prennent le temps d'observer et de planifier avant de frapper avec force et assurance. Ils préparent minutieusement leurs mouvements, mais quand ils agissent, c'est avec une confiance et une puissance inattendue.`,
+        SecFemininFroidMasculinHumideMasculinChaudMasculinFroidMasculinSecFeminin : `Votre profil rassemble une forte orientation vers la logique et l'organisation avec une capacité à maintenir un calme et une modération, même en présence de défis. Les personnes de ce profil ont une approche méthodique de la vie, assurant que chaque action est soigneusement pensée et exécutée avec précision, ce qui les rend extrêmement fiables et stables.`,
+        SecFemininFroidMasculinHumideMasculinChaudMasculinHumideMasculinSecFeminin : `Les individus avec votre profil sont caractérisés par un mélange de tranquillité et d'apaisement couplé à une énergie de détermination et de persévérance. Ils ont tendance à aborder les situations avec sérénité, mais une fois engagés, ils font preuve d'une force et d'une ténacité qui peuvent surprendre ceux qui les perçoivent comme uniquement paisibles ou nonchalants. Ils sont la définition même de l'eau calme qui court profondément.`,
+        SecFemininFroidMasculinHumideMasculinChaudMasculinChaudMasculinSecFeminin : `Les individus qui ont votre profil sont des personnes qui combinent une prédisposition à la réflexion et à la patience avec une flamme interne qui éclaire et guide leurs actions. Ils se distinguent par leur capacité à endurer et à maintenir le cap, tout en ayant en eux cette étincelle de volonté et d'ambition qui les pousse à l'action quand c'est nécessaire. Leur patience n'est pas synonyme d'inaction, mais plutôt une stratégie délibérée pour frapper au moment le plus opportune avec énergie.`,
+        SecFemininFroidMasculinHumideMasculinChaudMasculinFroidMasculinHumideMasculin : `Ceux qui correspondent à votre profil sont caractérisés par leur attention minutieuse aux détails et leur organisation, conjuguée à une ardeur et une impulsivité souvent cachée sous une surface tranquille. Ils savent quand il est temps de suivre les règles et quand il est temps de les enfreindre pour avancer. Leur perspicacité et leur capacité à voir au-delà de l'ordinaire leur donnent un avantage dans la réalisation de leurs objectifs avec passion`,
+        SecFemininFroidMasculinHumideMasculinChaudMasculinChaudMasculinFroidMasculin : `Les personnes avec votre profil sont des piliers de force tranquille, possédant une résilience silencieuse couplée à un moteur interne de passion et d'impulsivité. Ils peuvent rester stables et inébranlables face à l'adversité, mais quand vient le moment d'agir, ils le font avec un éclat et une vivacité qui peut surprendre ceux qui les ont mal jugés comme passifs ou indécis. Leur patience est la toile de fond de leur capacité à saisir le moment avec vigueur.`,
+        SecFemininFroidMasculinHumideMasculinChaudMasculinChaudMasculinHumideMasculin : `Votre profil est celui d'individus qui opèrent souvent en arrière-plan, avec une discrétion et une modération remarquable, mais qui disposent d'un fort sens de l'autorité et de la détermination quand ils sont appelés à prendre les devants. Ces personnes peuvent sembler effacées, mais leur présence se fait sentir lorsqu'ils déploient une force et une puissance de caractère inattendues, agissant avec confiance et contrôle quand la situation l'exige.`,
+        SecMasculinFroidFemininHumideFemininChaudFemininFroidFemininSecMasculin : `Les individus correspondant à votre profil allient une logique et une objectivité méthodiques à une sensibilité émotionnelle profonde. Ils sont capables de disséquer les situations avec précision, mais ils le font toujours avec une conscience des nuances émotionnelles impliquées. Ces personnes tendent à être des conseillers fiables, combinant la rigueur intellectuelle avec une compréhension empathique des besoins des autres, offrant des solutions bien pensées qui prennent en compte le bien-être émotionnel.`,
+        SecMasculinFroidFemininHumideFemininChaudFemininHumideFemininSecMasculin : `Ceux qui se reconnaissent dans votre profil présentent une combinaison de pensée analytique et de patience résiliente. Ils abordent les problèmes de manière stratégique, avec une forte attention portée sur les détails et l'organisation, tout en faisant preuve d'une remarquable capacité à attendre le bon moment pour agir. Leur approche est souvent contemplative, et ils peuvent demeurer immuables devant l'adversité, utilisant leur stabilité comme un atout pour atteindre leurs objectifs de manière réfléchie.`,
+        SecMasculinFroidFemininHumideFemininChaudFemininChaudFemininSecMasculin : `Les personnes de votre profil ont une orientation logique et structurée qui est énergisée par un esprit enthousiaste et inspiré. Ils sont naturellement enclins à organiser et à planifier, mais ils sont aussi capables d'agir spontanément lorsque l'inspiration les frappe. Cet équilibre entre la pensée ordonnée et l'expressivité leur permet d'innover et de mener des projets avec une combinaison unique d'efficacité et de créativité.`,
+        SecMasculinFroidFemininHumideFemininChaudFemininFroidFemininHumideFeminin : `Les personnes qui ont votre profil se caractérisent par une prédominance de sensibilité et de réceptivité émotionnelles, avec une capacité supplémentaire de rester ancrées et cohérentes dans leurs pensées et actions. Leur force réside dans leur adaptabilité et leur profondeur émotionnelle, qui sont soutenues par un sens pratique et terre-à-terre. Ils sont souvent perçus comme étant d'un soutien solide et fiable, offrant une épaule sur laquelle s'appuyer tout en gardant les pieds sur terre.`,
+        SecMasculinFroidFemininHumideFemininChaudFemininChaudFemininFroidFeminin : `Les individus correspondant à votre profil sont marqués par un esprit novateur et une expressivité qui se distinguent dans un cadre de patience et de discrétion. Ils possèdent un élan créatif et une capacité à s'exprimer qui peuvent se manifester de manière subtile, leur approche globale étant guidée par une réflexion calme et une constance. Ces personnes inspirent souvent par leur originalité tout en restant fidèles à leurs principes stables et mesurés.`,
+        SecMasculinFroidFemininHumideFemininChaudFemininChaudFemininHumideFeminin : `Ceux qui s'identifient à votre profil combinent une sensibilité et une intuition profondes avec une passion et une motivation qui les poussent à l'action. Ils sont capables de ressentir les subtilités émotionnelles tout en étant animés par une ambition et un dynamisme qui les rendent particulièrement efficaces lorsqu'ils sont engagés dans des projets qui leur tiennent à cœur. Leur empathie leur permet de se connecter aux autres, et leur énergie positive est souvent contagieuse.`,
+        SecMasculinFroidFemininHumideFemininChaudMasculinFroidFemininSecMasculin : `Les personnes de votre profil présentent une logique et une méthodologie rigoureuses associées à une faculté d'adaptation et de communication souples. Ils peuvent analyser et organiser des systèmes complexes, tout en restant ouverts et flexibles face aux nouvelles informations ou perspectives. Leur combinaison de fiabilité et de réceptivité fait d'eux des leaders naturels capables de gérer des équipes diversifiées et de naviguer à travers des situations changeantes avec assurance.`,
+        SecMasculinFroidFemininHumideFemininChaudMasculinHumideFemininSecMasculin : `Les individus avec votre profil sont caractérisés par une forte capacité d'analyse et de détail, équilibrée par un talent pour la communication et une capacité à se connecter avec les autres. Ils abordent les problèmes avec minutie et peuvent se consacrer à des tâches exigeant de l'attention au détail, tout en restant conscients des dynamiques sociales et émotionnelles, ce qui leur permet de partager leurs idées et de collaborer efficacement.`,
+        SecMasculinFroidFemininHumideFemininChaudMasculinChaudMasculinSecMasculin : `Les individus qui correspondent à votre profil allient une approche pragmatique et terre-à-terre avec une vive expressivité et un enthousiasme contagieux. Bien que leur pensée soit ancrée dans le concret et qu'ils aient tendance à valoriser la stabilité et le réalisme, ils ne manquent pas de partager leur vision et leurs passions, ce qui les rend des forces motrices dans des projets qui nécessitent à la fois de la persistance et de la créativité.`,
+        SecMasculinFroidFemininHumideFemininChaudMasculinFroidFemininHumideFeminin : `Ceux de votre profil sont caractérisés par une tranquillité innée et une capacité à préserver une atmosphère sereine, renforcée par une motivation et une ambition qui les poussent à la réussite. Ils ont tendance à aborder la vie avec patience et prévoyance, mais lorsque vient le moment d'agir, ils le font avec une détermination et un élan qui peuvent surprendre ceux qui les connaissent comme des figures généralement calmes et posées.`,
+        SecMasculinFroidFemininHumideFemininChaudMasculinChaudMasculinFroidFeminin : `Les personnes avec votre profil présentent un mélange intéressant de nonchalance et de patience, conjugué avec une expressivité et une inspiration souvent réservée pour des occasions significatives. Ils prennent le temps de réfléchir et d'absorber les détails de leur environnement, mais lorsqu'ils sont inspirés ou lorsqu'une cause touche leur cœur, leur engagement et leur expressivité deviennent évidents pour tous ceux qui les entourent.`,
+        SecMasculinFroidFemininHumideFemininChaudMasculinChaudMasculinHumideFeminin : `Votre profil révèle des personnes qui sont à la fois intuitives et réceptives, capables de comprendre et de ressentir profondément les circonstances qui les entourent, tout en possédant un dynamisme et une impulsion pour l'action et l'atteinte d'objectifs concrets. Ils combinent un sens aigu de la compréhension émotionnelle et une volonté de se transformer et d'agir rapidement quand ils sont motivés par leurs convictions ou leurs passions.`,
+        SecMasculinFroidFemininHumideMasculinChaudFemininFroidFemininSecMasculin : `Les individus appartenant à votre profil se distinguent par leur logique et leur organisation, tout en conservant une empathie et une profondeur émotionnelle qui les rendent uniques. Ils abordent les situations avec une analyse méthodique, mais ne perdent jamais de vue l'impact humain de leurs décisions. Ils allient fiabilité et minutie dans la gestion de projets, tout en faisant preuve d'une grande capacité d'adaptation aux besoins émotionnels de leur entourage.`,
+        SecMasculinFroidFemininHumideMasculinChaudFemininHumideMasculinSecMasculin : `Ceux de votre profil excellent dans la mise en œuvre de structures et de systèmes grâce à leur esprit méthodique, mais sont aussi dotés d'une capacité d'intuition et de vision qui enrichit leur approche pragmatique. Ils allient souvent un esprit d'organisation à une grande ouverture d'esprit, leur permettant de s'adapter aux changements et aux nouvelles idées, ce qui en fait de puissants innovateurs capables de concrétiser leurs visions.`,
+        SecMasculinFroidFemininHumideMasculinChaudFemininChaudFemininSecMasculin : `Les personnes avec votre profil combinent une orientation stratégique et organisée avec une expressivité et une passion qui peuvent enflammer leur entourage. Ils ont la capacité de créer des plans détaillés et de les suivre avec rigueur, tout en conservant une flamme de motivation et d'enthousiasme qui les rend efficaces dans la poursuite de leurs ambitions et dans l'inspiration des autres à les rejoindre dans leurs entreprises.`,
+        SecMasculinFroidFemininHumideMasculinChaudFemininFroidFemininHumideMasculin : `Votre profil reflète des individus qui possèdent une tranquillité et une patience remarquables, couplées à un sens du détail et une fiabilité dans l'exécution de leurs tâches. Ils sont ceux sur qui on peut compter pour des analyses approfondies et une exécution méticuleuse, tout en conservant une sensibilité qui leur permet de naviguer et de répondre avec empathie aux dynamiques humaines complexes.`,
+        SecMasculinFroidFemininHumideMasculinChaudFemininChaudFemininFroidFeminin : `Les individus de votre profil naviguent la vie avec une patience et une stabilité à toute épreuve, tout en étant animés par une passion et une motivation qui les poussent à agir. Ils sont le roc sur lequel leurs proches peuvent s'appuyer, stables et fiables, mais lorsqu'ils sont inspirés, leur enthousiasme est contagieux, donnant vie à leurs projets et à leurs ambitions avec une énergie renouvelée.`,
+        SecMasculinFroidFemininHumideMasculinChaudFemininChaudFemininHumideMasculin : `Ceux avec votre profil fusionnent une patience ancrée et une approche prudente avec une force intérieure et une détermination ardente. Ils abordent la vie avec prudence, réfléchissant profondément avant chaque décision, mais une fois qu'ils sont engagés, ils poursuivent leurs objectifs avec une impulsion vigoureuse et indomptable.`,
+        SecMasculinFroidFemininHumideMasculinChaudMasculinFroidFemininSecMasculin : `Les individus qui se reconnaissent dans votre profil affichent un mélange de pensée logique et systématique avec une force de volonté et une impulsivité qui commandent le respect. Ils ont une approche de la vie qui est à la fois calculée et passionnée, leur permettant de prendre des mesures réfléchies tout en restant prêts à se lancer avec fougue quand l'occasion se présente.`,
+        SecMasculinFroidFemininHumideMasculinChaudMasculinHumideMasculinSecMasculin : `Les personnes de votre profil combinent une orientation systématique et méthodique avec une impétuosité et une détermination qui les rendent très efficaces dans l'accomplissement de leurs objectifs. Ils savent comment mettre en place des plans et des stratégies, mais sont également capables de faire preuve d'une puissance d'exécution qui peut surprendre et dépasser les attentes de ceux qui les entourent.`,
+        SecMasculinFroidFemininHumideMasculinChaudMasculinChaudMasculinSecMasculin : `Les personnes avec votre profil sont caractérisées par une méthodologie et une capacité d'organisation qui les rendent particulièrement aptes à la planification et à l'orchestration de grands projets. Cependant, elles disposent également d'une réactivité et d'une vivacité qui leur permettent de prendre des décisions rapides et efficaces, animées par une motivation interne qui les pousse à l'action quand il est temps de passer à la concrétisation.`,
+        SecMasculinFroidFemininHumideMasculinChaudMasculinFroidFemininHumideMasculin : `Ceux de votre profil associent une patience et une constance remarquable à une impulsivité et une fougue dans l'accomplissement de leurs desseins. Ils sont capables de maintenir un rythme soutenu sur le long terme, mais quand il s'agit de saisir une opportunité ou de répondre à un défi, ils le font avec une énergie et une rapidité qui peuvent laisser leurs pairs en admiration.`,
+        SecMasculinFroidFemininHumideMasculinChaudMasculinChaudMasculinFroidFeminin : `Les individus avec votre profil sont des penseurs réceptifs et des communicateurs sensibles qui abordent la vie avec une ouverture d'esprit et une flexibilité remarquable. Pourtant, ils ne manquent pas de motivation et d'énergie quand il s'agit de poursuivre leurs passions, se démarquant par leur capacité à mobiliser rapidement leurs ressources intérieures pour la réalisation de leurs aspirations.`,
+        SecMasculinFroidFemininHumideMasculinChaudMasculinChaudMasculinHumideMasculin : `Les personnes de votre profil mélangent une tendance à la réflexion et à la conservation avec une puissance et une détermination inébranlable dans leurs actions. Ils approchent le monde avec prudence, mais lorsqu'ils sont inspirés ou confrontés à une cause qui leur tient à cœur, ils agissent avec une force et une vigueur qui peuvent transformer radicalement leur environnement et influencer fortement les autres.`,
+        SecMasculinFroidMasculinHumideFemininChaudFemininFroidMasculinSecMasculin : `Les Individus avec votre profil brillent par leur logique impeccable et leur organisation systématique, qui sont les fondations sur lesquelles ils construisent leur vie et carrière. Cependant, ils ne sont pas dépourvus d'un sens de stabilité et de patience, ce qui leur permet d'approcher les situations avec une maturité qui favorise la durabilité et la prudence. Ils sont les piliers sur lesquels les autres peuvent se reposer, fournissant une structure solide tout en maintenant un environnement rassurant et fiable.`,
+        SecMasculinFroidMasculinHumideFemininChaudFemininHumideFemininSecMasculin : `Les personnes de votre profil combinent une approche logique et méthodique avec un calme et une tranquillité d'esprit qui les rendent excellents dans la gestion de situations nécessitant à la fois une planification précise et une capacité à rester imperturbable sous la pression. Ils font preuve d'une modération et d'une tempérance qui équilibrent parfaitement leur besoin de structure, les rendant aptes à manœuvrer habilement entre les exigences rigoureuses de la logistique et le maintien de la sérénité.`,
+        SecMasculinFroidMasculinHumideFemininChaudFemininChaudFemininSecMasculin : `Dans votre profil, nous trouvons une fusion unique entre la logique et la minutie, qui leur permet d'analyser et de comprendre les situations avec une clarté impressionnante, et une passion et une impatience qui leur donne l'impulsion nécessaire pour agir rapidement et avec enthousiasme. Leurs actions sont souvent le résultat d'une réflexion approfondie suivie d'une exécution dynamique et énergique.`,
+        SecMasculinFroidMasculinHumideFemininChaudFemininFroidMasculinHumideFeminin : `Les individus qui ont votre profil sont marqués par une capacité à réfléchir de manière objective et à organiser leur vie avec une précision remarquable. En complément à ces traits, ils possèdent une constance et une patience qui leur confèrent une résilience face aux adversités. Ces qualités combinées leur permettent de construire des projets de long terme avec assurance et de naviguer les périodes de changement avec une endurance tranquille et réfléchie.`,
+        SecMasculinFroidMasculinHumideFemininChaudFemininChaudFemininFroidMasculin : `Les personnes avec votre profil ont une capacité exceptionnelle à concilier une pensée conceptuelle avec une passion et une motivation intrinsèque. Ils tendent à analyser les situations avec une intelligence aiguë tout en étant poussés par une inspiration personnelle. Cela leur permet de poursuivre des objectifs qui non seulement ont du sens sur le plan intellectuel mais qui les animent également sur le plan émotionnel, fusionnant stratégie et aspiration.`,
+        SecMasculinFroidMasculinHumideFemininChaudFemininChaudFemininHumideFeminin : `Ceux qui s'identifient à votre profil allient une curiosité et une intuition profondes avec une capacité à se concentrer sur ce qui nécessite de la patience et de la persévérance. Ils s'épanouissent en absorbant et en traitant des connaissances, tout en maintenant une constance dans leurs objectifs et engagements. Leur profonde sensibilité conceptuelle et leur endurance stable en font d'excellents stratèges et penseurs à long terme.`,
+        SecMasculinFroidMasculinHumideFemininChaudMasculinFroidMasculinSecMasculin : `Les individus avec votre profil se distinguent par leur logique et leur rigueur dans la planification et l'exécution de leurs tâches, tout en s'adaptant avec aisance aux flux de leur environnement grâce à une imagination fertile et une grande communicabilité. Ils sont les maîtres dans l'art de transformer des concepts abstraits en plans d'action structurés, bénéficiant d'une synthèse harmonieuse entre l'intellect et l'adaptabilité.`,
+        SecMasculinFroidMasculinHumideFemininChaudMasculinHumideFemininSecMasculin : `Les personnes portant votre profil intègrent une structure méthodique et un esprit de minutie avec une réceptivité et une flexibilité notable dans leur communication et leur interaction avec autrui. Ils jonglent avec brio entre les nécessités d'une organisation rigoureuse et les nuances de l'adaptation aux autres, ce qui les rend particulièrement efficaces dans des rôles qui exigent à la fois une forte capacité analytique et un talent pour la diplomatie.`,
+        SecMasculinFroidMasculinHumideFemininChaudMasculinChaudMasculinSecMasculin : `Les personnes avec votre profil brillent par leur pragmatisme et leur organisation, couplés à une expressivité et une vivacité qui les rendent captivants et persuasifs. Ils ont cette capacité à rester fermement ancrés dans la réalité tout en débordant d'une passion qui motive et inspire leur entourage. Cela leur permet de mener des projets avec un mélange équilibré de sérieux et d'ardeur.`,
+        SecMasculinFroidMasculinHumideFemininChaudMasculinFroidMasculinHumideFeminin : `Les individus de votre profil associent une tranquillité d'esprit et une patience remarquable à un élan créatif et une capacité à communiquer avec subtilité. Ils peuvent maintenir une constance dans leurs entreprises, tout en restant ouverts et adaptatifs aux nouvelles idées et perspectives, ce qui en fait des collaborateurs précieux, capables de stabiliser tout en innovant.`,
+        SecMasculinFroidMasculinHumideFemininChaudMasculinChaudMasculinFroidMasculin : `Ceux qui présentent votre profil sont caractérisés par une logique et une fiabilité qui se fondent harmonieusement avec un enthousiasme et une volonté indomptable. Ils sont souvent les piliers sur lesquels les autres s'appuient, fournissant à la fois une base solide de connaissances et un élan de motivation, rendant les idées réalisables par leur détermination et leur ténacité.`,
+        SecMasculinFroidMasculinHumideFemininChaudMasculinChaudMasculinHumideFeminin : `Les individus qui ont votre profil combinent une imagination riche et une facilité de communication avec une tendance naturelle vers l'action et la réalisation. Ils se distinguent par leur capacité à rêver grand et à partager leurs visions tout en poursuivant activement leurs ambitions, ce qui les positionne comme des visionnaires pratiques, capables de transformer l'inspiration en action concrète.`,
+        SecMasculinFroidMasculinHumideMasculinChaudFemininFroidMasculinSecMasculin : `Les personnes correspondant à votre profil sont des stratèges nés, faisant preuve d'une grande logique et d'une minutie sans faille dans la planification et l'exécution de leurs plans. Ils sont également dotés d'une expressivité remarquable et d'une passion contagieuse qui leur permettent de rallier les autres à leurs causes avec conviction et d'agir avec un esprit conquérant.`,
+        SecMasculinFroidMasculinHumideMasculinChaudFemininHumideMasculinSecMasculin : `Individus dotés de votre profil démontrent une combinaison impressionnante de tranquillité et de maîtrise de soi, associée à un esprit systématique et organisé. Ils sont les maîtres de la réflexion approfondie et de la patience, et leur capacité à rester calmes sous pression leur permet de naviguer avec sérénité à travers les défis, tout en gardant un œil sur le détail et la procédure.`,
+        SecMasculinFroidMasculinHumideMasculinChaudFemininChaudFemininSecMasculin : `Ceux de votre profil combinent une pensée imaginative et une curiosité intellectuelle avec un tempérament chaleureux et un dynamisme contagieux. Ils ont la capacité unique d'aborder la vie avec une approche conceptuelle et réfléchie tout en étant spontanément motivés par leur ambition et leur désir de réalisation personnelle.`,
+        SecMasculinFroidMasculinHumideMasculinChaudFemininFroidMasculinHumideMasculin : `Les personnes avec votre profil sont caractérisées par une stabilité émotionnelle et une capacité d'adaptation qui s'associent à un intellect aiguisé et à une orientation vers le détail et la structure. Elles abordent la vie avec une combinaison de prudence et de rigueur, permettant une progression sûre et méthodique vers leurs objectifs, tout en étant capable d'exprimer et de communiquer leurs idées de manière efficace.`,
+        SecMasculinFroidMasculinHumideMasculinChaudFemininChaudFemininFroidMasculin : `Les individus avec votre profil se distinguent par leur capacité à maintenir une perspective globale tout en faisant preuve d'une ouverture émotionnelle et d'une réactivité intuitive. Ils sont capables de voir au-delà des détails immédiats pour comprendre des systèmes complexes et sont souvent perçus comme des visionnaires. Leur combinaison de perspicacité et de passion les rend particulièrement adaptés pour diriger des projets novateurs qui requièrent à la fois vision et empathie.`
+    
+    }
+
+
+  function displayResults() {
+      // Get the scores from localStorage
+      finalScores = JSON.parse(localStorage.getItem('finalScores'));
+    if (finalScores) {
+           //Calcul des proportions
+           calculProportions();
+           // Your code to display the scores
+           display();
+           displayProfile(pondereScores);
+            // Clear the scores from localStorage after displaying them
+           localStorage.removeItem('finalScores');
+            // If you have included a chart library, initialize your charts here using the scores.
+        } else {
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.innerHTML = '<p>No results to display. Please take the test first.</p>';
+        }
+    }
+
+
+ function calculProportions(){
+     //Calcul du minimum de score de polarité et pondération des autres scores afin d'avoir tous les scores > 0
+     let polarityPondere = Math.min(finalScores.scoreSecMasculin, finalScores.scoreSecFeminin, finalScores.scoreFroidMasculin, finalScores.scoreFroidFeminin, finalScores.scoreHumideMasculin, finalScores.scoreHumideFeminin, finalScores.scoreChaudMasculin, finalScores.scoreChaudFeminin);
+     if (polarityPondere<=0){
+         polarityPondere = 0.5 - polarityPondere;
+     }else{
+         polarityPondere = 0;
+     }
+     //Calcul du minimum de score de dominance d'éléments et pondération des autres scores afin d'avoir tous les scores > 0
+     let elementPondere = Math.min(finalScores.scoreTerre, finalScores.scoreEau, finalScores.scoreAir, finalScores.scoreFeu);
+     if (elementPondere<=0){
+         elementPondere = 0.5 - elementPondere;
+     }else{
+         elementPondere = 0;
+     }
+     //Pondération des scores en fonction des minimums
+     pondereScores.scoreTerre = finalScores.scoreTerre + elementPondere;
+     pondereScores.scoreEau = finalScores.scoreEau + elementPondere;
+     pondereScores.scoreAir = finalScores.scoreAir + elementPondere;
+     pondereScores.scoreFeu = finalScores.scoreFeu + elementPondere;
+     pondereScores.scoreSecMasculin = finalScores.scoreSecMasculin + polarityPondere;
+     pondereScores.scoreSecFeminin = finalScores.scoreSecFeminin + polarityPondere;
+     pondereScores.scoreFroidMasculin = finalScores.scoreFroidMasculin + polarityPondere;
+     pondereScores.scoreFroidFeminin = finalScores.scoreFroidFeminin + polarityPondere;
+     pondereScores.scoreHumideMasculin = finalScores.scoreHumideMasculin + polarityPondere;
+     pondereScores.scoreHumideFeminin = finalScores.scoreHumideFeminin + polarityPondere;
+     pondereScores.scoreChaudMasculin = finalScores.scoreChaudMasculin + polarityPondere;
+     pondereScores.scoreChaudFeminin = finalScores.scoreChaudFeminin + polarityPondere;
+
+    //Calcul des proportions dominantes des éléments basés sur les choix bonus et choix malus du questionnaire
+     repartitions.dominanteTerre = Math.round((pondereScores.scoreTerre / (pondereScores.scoreTerre + pondereScores.scoreEau + pondereScores.scoreAir + pondereScores.scoreFeu)) * 100);
+     repartitions.dominanteEau = Math.round((pondereScores.scoreEau / (pondereScores.scoreTerre + pondereScores.scoreEau + pondereScores.scoreAir + pondereScores.scoreFeu)) * 100);
+     repartitions.dominanteAir = Math.round((pondereScores.scoreAir / (pondereScores.scoreTerre + pondereScores.scoreEau + pondereScores.scoreAir + pondereScores.scoreFeu)) * 100);
+     repartitions.dominanteFeu = Math.round((pondereScores.scoreFeu / (pondereScores.scoreTerre + pondereScores.scoreEau + pondereScores.scoreAir + pondereScores.scoreFeu)) * 100);
+     
+    //calcul des proportions de chaque polarité par rapport aux autres
+    repartitions.pourcentageSecMasculin = Math.round((pondereScores.scoreSecMasculin / ( pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin)*100));
+    repartitions.pourcentageSecFeminin = Math.round((pondereScores.scoreSecFeminin / ( pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin)*100));
+    repartitions.pourcentageFroidMasculin = Math.round((pondereScores.scoreFroidMasculin / ( pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin)*100));
+    repartitions.pourcentageFroidFeminin = Math.round((pondereScores.scoreFroidFeminin / ( pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin)*100));
+    repartitions.pourcentageHumideMasculin = Math.round((pondereScores.scoreHumideMasculin / ( pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin)*100));
+    repartitions.pourcentageHumideFeminin = Math.round((pondereScores.scoreHumideFeminin / ( pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin)*100));
+    repartitions.pourcentageChaudMasculin = Math.round((pondereScores.scoreChaudMasculin / ( pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin)*100));
+    repartitions.pourcentageChaudFeminin = Math.round((pondereScores.scoreChaudFeminin / ( pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin)*100));
+
+    //calcul des proportions de chaque élément parmi les autres par la somme de ses scores des polarités qui le composent
+    repartitions.pourcentageTerre = Math.round((((pondereScores.scoreSecMasculin + pondereScores.scoreFroidFeminin) / (pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin))*100));
+    repartitions.pourcentageEau = Math.round((((pondereScores.scoreFroidMasculin + pondereScores.scoreHumideFeminin) / (pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin))*100));
+    repartitions.pourcentageAir = Math.round((((pondereScores.scoreHumideMasculin + pondereScores.scoreChaudFeminin) / (pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin))*100));
+    repartitions.pourcentageFeu = Math.round((((pondereScores.scoreChaudMasculin + pondereScores.scoreSecFeminin) / (pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin + pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin + pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin + pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin))*100));
+
+    //Calcul de la proportion de chaque polarité dans l'élément qui la contient
+    pourcentagePolaritesElements.pourcentagePolaritesElementsSecMasculin = Math.round((pondereScores.scoreSecMasculin / (pondereScores.scoreSecMasculin + pondereScores.scoreFroidFeminin))*100);
+    pourcentagePolaritesElements.pourcentagePolaritesElementsFroidFeminin = Math.round((pondereScores.scoreFroidFeminin / (pondereScores.scoreSecMasculin + pondereScores.scoreFroidFeminin))*100);
+    pourcentagePolaritesElements.pourcentagePolaritesElementsFroidMasculin = Math.round((pondereScores.scoreFroidMasculin / (pondereScores.scoreFroidMasculin + pondereScores.scoreHumideFeminin))*100);
+    pourcentagePolaritesElements.pourcentagePolaritesElementsHumideFeminin = Math.round((pondereScores.scoreHumideFeminin / (pondereScores.scoreFroidMasculin + pondereScores.scoreHumideFeminin))*100);
+    pourcentagePolaritesElements.pourcentagePolaritesElementsHumideMasculin = Math.round((pondereScores.scoreHumideMasculin / (pondereScores.scoreHumideMasculin + pondereScores.scoreChaudFeminin))*100);
+    pourcentagePolaritesElements.pourcentagePolaritesElementsChaudFeminin = Math.round((pondereScores.scoreChaudFeminin / (pondereScores.scoreHumideMasculin + pondereScores.scoreChaudFeminin))*100);
+    pourcentagePolaritesElements.pourcentagePolaritesElementsChaudMasculin = Math.round((pondereScores.scoreChaudMasculin / (pondereScores.scoreChaudMasculin + pondereScores.scoreSecFeminin))*100);
+    pourcentagePolaritesElements.pourcentagePolaritesElementsSecFeminin = Math.round((pondereScores.scoreSecFeminin / (pondereScores.scoreChaudMasculin + pondereScores.scoreSecFeminin))*100);
+
+    //Calcul de la proportion de chaque polarité par rapport à son opposé
+    dichotomies.dichotomieSecMasculin = Math.round((pondereScores.scoreSecMasculin / (pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin))*100);
+    dichotomies.dichotomieSecFeminin = Math.round((pondereScores.scoreSecFeminin / (pondereScores.scoreSecMasculin + pondereScores.scoreSecFeminin))*100);
+    dichotomies.dichotomieFroidMasculin = Math.round((pondereScores.scoreFroidMasculin / (pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin))*100);
+    dichotomies.dichotomieFroidFeminin = Math.round((pondereScores.scoreFroidFeminin / (pondereScores.scoreFroidMasculin + pondereScores.scoreFroidFeminin))*100);
+    dichotomies.dichotomieHumideMasculin = Math.round((pondereScores.scoreHumideMasculin / (pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin))*100);
+    dichotomies.dichotomieHumideFeminin = Math.round((pondereScores.scoreHumideFeminin / (pondereScores.scoreHumideMasculin + pondereScores.scoreHumideFeminin))*100);
+    dichotomies.dichotomieChaudMasculin = Math.round((pondereScores.scoreChaudMasculin / (pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin))*100);
+    dichotomies.dichotomieChaudFeminin = Math.round((pondereScores.scoreChaudFeminin / (pondereScores.scoreChaudMasculin + pondereScores.scoreChaudFeminin))*100);
+ }
+
+
+    function displayProfile(pondereScores) {
+        let dominantElement = getDominantElement(repartitions);
+        let dominantProfile = getDominantProfile(pondereScores);
+        let dominantPolarities = getDominantPolarities(pondereScores);
+
+        let meaningText = getElementMeaningText(dominantElement);
+        let polarityText = getPolarityText(dominantProfile);
+        let dominantPolarityText = getDominantPolarityText(dominantPolarities);
+
+
+        // Mettre à jour le contenu de la section texte
+        document.getElementById('resultsText').innerHTML = `
+            <h3 class="choice bg-purple-800 px-4 py-2 rounded text-center text-white transition transform hover:scale-125 font-semibold">Votre élément dominant est : ${dominantElement}</h3><br/>
+            <p class="choice bg-purple-200 px-4 py-2 rounded text-center text-purple-800 transition transform hover:scale-110 font-semibold">${meaningText}</p><br/>
+            <p class="choice bg-purple-400 px-4 py-2 rounded text-center text-white transition transform hover:scale-110 font-semibold">${polarityText}</p><br/>
+            <p class="choice bg-purple-600 px-4 py-2 rounded text-center text-white transition transform hover:scale-110 font-semibold">${dominantPolarityText}</p><br/>
+        `;
+    }
+    
+  function display(){
+    if (finalScores) {
+      // Obtenez la référence de l'élément où vous souhaitez afficher les scores
+      const resultsContainer = document.getElementById('results-container');
+      if (!resultsContainer) {
+        console.error('No results container found on the page.');
+        return;
+      }
+      // Créez une chaîne de caractères HTML pour l'affichage des scores
+      //let scoresHtml = `<div id="final-scores">`;
+      //for (const [key, value] of Object.entries(pondereScores)) {
+      //  scoresHtml += `<p>${key}: ${value}</p>`;
+      //}
+      //scoresHtml += `</div>`;
+      // Mettez à jour le HTML de l'élément de résultats avec les scores finaux
+      //resultsContainer.innerHTML = scoresHtml;
+
+        //let texteHtml = '<div id="element">'
+        //texteHtml += '<p class="text-center"> TON ELEMENT DOMINANT EST :</p>';
+        //texteHtml += '<br/><p class="text-center"><b>${calculElement()}</b></p>';
+        //texteHtml += '</div>';
+          // Initialisation des graphiques
+      initChart('elementsDominanceChart', ['Terre', 'Eau', 'Air', 'Feu'], [
+          repartitions.dominanteTerre, 
+          repartitions.dominanteEau, 
+          repartitions.dominanteAir, 
+          repartitions.dominanteFeu
+      ]);
+      initChart('elementsRepartitionChart', ['Terre', 'Eau', 'Air', 'Feu'], [
+          repartitions.pourcentageTerre, 
+          repartitions.pourcentageEau, 
+          repartitions.pourcentageAir, 
+          repartitions.pourcentageFeu
+      ]);
+      initChart('polaritiesRepartitionChart', ['Sec Masculin', 'Sec Feminin', 'Froid Masculin', 'Froid Feminin', 'Humide Masculin', 'Humide Feminin', 'Chaud Masculin', 'Chaud Feminin'], [
+          repartitions.pourcentageSecMasculin, 
+          repartitions.pourcentageSecFeminin, 
+          repartitions.pourcentageFroidMasculin, 
+          repartitions.pourcentageFroidFeminin, 
+          repartitions.pourcentageHumideMasculin, 
+          repartitions.pourcentageHumideFeminin, 
+          repartitions.pourcentageChaudMasculin, 
+          repartitions.pourcentageChaudFeminin
+      ]);
+      initChart('terreRepartitionChart', ['Sec Masculin', 'Froid Feminin'], [
+          pourcentagePolaritesElements.pourcentagePolaritesElementsSecMasculin, 
+          pourcentagePolaritesElements.pourcentagePolaritesElementsFroidFeminin, 
+      ]);
+      initChart('eauRepartitionChart', ['Froid Masculin', 'Humide Feminin'], [
+          pourcentagePolaritesElements.pourcentagePolaritesElementsFroidMasculin, 
+          pourcentagePolaritesElements.pourcentagePolaritesElementsHumideFeminin, 
+      ]);
+      initChart('airRepartitionChart', ['Humide Masculin', 'Chaud Feminin'], [
+          pourcentagePolaritesElements.pourcentagePolaritesElementsHumideMasculin, 
+          pourcentagePolaritesElements.pourcentagePolaritesElementsChaudFeminin, 
+      ]);
+      initChart('feuRepartitionChart', ['Chaud Masculin', 'Sec Feminin'], [
+          pourcentagePolaritesElements.pourcentagePolaritesElementsChaudMasculin, 
+          pourcentagePolaritesElements.pourcentagePolaritesElementsSecFeminin, 
+      ]);
+      initChart('secRepartitionChart', ['Sec Masculin', 'Sec Feminin'], [
+          dichotomies.dichotomieSecMasculin, 
+          dichotomies.dichotomieSecFeminin, 
+      ]);
+      initChart('froidRepartitionChart', ['Froid Masculin', 'Froid Feminin'], [
+          dichotomies.dichotomieFroidMasculin, 
+          dichotomies.dichotomieFroidFeminin, 
+      ]);
+      initChart('humideRepartitionChart', ['Humide Masculin', 'Humide Feminin'], [
+          dichotomies.dichotomieHumideMasculin, 
+          dichotomies.dichotomieHumideFeminin, 
+      ]);
+      initChart('chaudRepartitionChart', ['Chaud Masculin', 'Chaud Feminin'], [
+          dichotomies.dichotomieChaudMasculin, 
+          dichotomies.dichotomieChaudFeminin, 
+      ]);      
+    }
+  }
+
+    function getDominantElement(scores){
+        let maxScoreElement = Math.max(scores.pourcentageTerre, scores.pourcentageEau, scores.pourcentageAir, scores.pourcentageFeu);
+        if (maxScoreElement === scores.pourcentageTerre){
+            return 'TERRE'
+        } else if (maxScoreElement === scores.pourcentageEau){
+            return 'EAU'
+        } else if (maxScoreElement === scores.pourcentageAir){
+            return 'AIR'
+        } else if (maxScoreElement === scores.pourcentageFeu){
+            return 'FEU'
+        }
+    }
+
+    function getDominantPolarities(scores) {
+        // Création d'un tableau avec les noms des polarités et leurs scores correspondants
+        let polarities = [
+            { name: 'SecMasculin', score: scores.scoreSecMasculin },
+            { name: 'SecFeminin', score: scores.scoreSecFeminin },
+            { name: 'FroidMasculin', score: scores.scoreFroidMasculin },
+            { name: 'FroidFeminin', score: scores.scoreFroidFeminin },
+            { name: 'HumideMasculin', score: scores.scoreHumideMasculin },
+            { name: 'HumideFeminin', score: scores.scoreHumideFeminin },
+            { name: 'ChaudMasculin', score: scores.scoreChaudMasculin },
+            { name: 'ChaudFeminin', score: scores.scoreChaudFeminin }
+        ];
+
+        // Trier le tableau en fonction des scores, du plus élevé au plus bas
+        polarities.sort((a, b) => b.score - a.score);
+
+        let polarity = [
+            polarities[0],
+            polarities[1]
+        ];
+
+        polarity.sort((a, b) => a.name.localeCompare(b.name));
+        //let polar = getDominantProfile(pondereScores)+polarities[0].name+polarities[1].name;
+        
+        // Retourner les deux premières polarités comme étant les dominantes
+        let polar = getDominantProfile(pondereScores)+polarity[0].name+polarity[1].name;
+        return polar;
+    }
+
+    function getDominantProfile(scores) {
+        let dominantProfile = {
+            Sec: '',
+            Froid: '',
+            Humide: '',
+            Chaud: ''
+        };
+
+        // Déterminer la dominance pour chaque qualité
+        dominantProfile.Sec = finalScores.scoreSecMasculin > finalScores.scoreSecFeminin ? 'SecMasculin' : 'SecFeminin';
+        dominantProfile.Froid = finalScores.scoreFroidMasculin > finalScores.scoreFroidFeminin ? 'FroidMasculin' : 'FroidFeminin';
+        dominantProfile.Humide = finalScores.scoreHumideMasculin > finalScores.scoreHumideFeminin ? 'HumideMasculin' : 'HumideFeminin';
+        dominantProfile.Chaud = finalScores.scoreChaudMasculin > finalScores.scoreChaudFeminin ? 'ChaudMasculin' : 'ChaudFeminin';
+        let profil = ''
+        return profil = dominantProfile.Sec+dominantProfile.Froid+dominantProfile.Humide+dominantProfile.Chaud;
+    }
+
+    function getElementMeaningText(dominantElement) {
+        return elementTexts[dominantElement];
+    }
+
+    function getPolarityText(dominantProfile) {
+        console.log(dominantProfile);
+        return polarityTexts[dominantProfile];
+    }
+    function getDominantPolarityText(dominantPolarities) {
+        return dominantPolarityTexts[dominantPolarities];
+    }
+
+  function initChart(chartId, labels, data) {
+    const ctx = document.getElementById(chartId).getContext('2d');
+    if (chartId ==='elementsDominanceChart'){
+        new Chart(ctx, {
+            type: 'bar', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'green', 'blue', 'yellow', 'red'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'white', 'white', 'white', 'white'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                // Autres options de configuration si nécessaire
+                scales: {
+                        y: {
+                        beginAtZero: true // Assure que l'axe des Y commence à zéro
+                            }
+                    }
+            }
+        });        
+    } else if (chartId === 'polaritiesRepartitionChart') {
+        new Chart(ctx, {
+            type: 'bar', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'brown', 'beige', 'navy', 'lightblue','gray', 'darkgray', 'orange', 'gold'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'white', 'white', 'white', 'white','white', 'white', 'white', 'white'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                // Autres options de configuration si nécessaire
+                scales: {
+                    y: {
+                    beginAtZero: true // Assure que l'axe des Y commence à zéro
+                        }
+                }
+            }
+        });
+    } else if (chartId ==='elementsRepartitionChart'){
+        new Chart(ctx, {
+            type: 'pie', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'green', 'blue', 'yellow', 'red'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'white', 'white', 'white', 'white'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                // Autres options de configuration si nécessaire
+            }
+        });  
+    } else if (chartId ==='terreRepartitionChart'){
+        new Chart(ctx, {
+            type: 'doughnut', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'brown', 'lightblue'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'green', 'green'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                cutout: '50%', // Vous pouvez ajuster le pourcentage pour changer la taille du trou au centre
+                // Autres options de configuration si nécessaire
+            }
+        });  
+    } else if (chartId ==='eauRepartitionChart'){
+        new Chart(ctx, {
+            type: 'doughnut', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'navy', 'darkgray'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'blue', 'blue'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                cutout: '50%', // Vous pouvez ajuster le pourcentage pour changer la taille du trou au centre
+                // Autres options de configuration si nécessaire
+            }
+        });  
+    } else if (chartId ==='airRepartitionChart'){
+        new Chart(ctx, {
+            type: 'doughnut', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'gold', 'gray'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'yellow', 'yellow'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                cutout: '50%', // Vous pouvez ajuster le pourcentage pour changer la taille du trou au centre
+                // Autres options de configuration si nécessaire
+            }
+        });  
+    } else if (chartId ==='feuRepartitionChart'){
+        new Chart(ctx, {
+            type: 'doughnut', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'orange', 'beige'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'red', 'red'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                cutout: '50%', // Vous pouvez ajuster le pourcentage pour changer la taille du trou au centre
+                // Autres options de configuration si nécessaire
+            }
+        });  
+    } else if (chartId ==='secRepartitionChart'){
+        new Chart(ctx, {
+            type: 'doughnut', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'brown', 'beige'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'green', 'red'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                cutout: '50%', // Vous pouvez ajuster le pourcentage pour changer la taille du trou au centre
+                // Autres options de configuration si nécessaire
+            }
+        });  
+    } else if (chartId ==='froidRepartitionChart'){
+        new Chart(ctx, {
+            type: 'doughnut', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'navy', 'lightblue'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'blue', 'green'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                cutout: '50%', // Vous pouvez ajuster le pourcentage pour changer la taille du trou au centre
+                // Autres options de configuration si nécessaire
+            }
+        });  
+    } else if (chartId ==='humideRepartitionChart'){
+        new Chart(ctx, {
+            type: 'doughnut', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'gray', 'darkgray'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'yellow', 'blue'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                cutout: '50%', // Vous pouvez ajuster le pourcentage pour changer la taille du trou au centre
+                // Autres options de configuration si nécessaire
+            }
+        });  
+    } else if (chartId ==='chaudRepartitionChart'){
+        new Chart(ctx, {
+            type: 'doughnut', // Type de graphique en secteurs
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        // Définissez ici vos couleurs pour chaque segment
+                        'orange', 'gold'
+                    ],
+                    borderColor: [
+                        // Définissez ici les bordures pour chaque segment
+                        'red', 'yellow'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Pour permettre aux graphiques de s'adapter à la hauteur de leur conteneur
+                cutout: '50%', // Vous pouvez ajuster le pourcentage pour changer la taille du trou au centre
+                // Autres options de configuration si nécessaire
+            }
+        });  
+    }
+}
+// Call displayResults when the window loads
+document.addEventListener('DOMContentLoaded', function() {
+  displayResults();
+});
+  </script>
+</body>
+</html>
